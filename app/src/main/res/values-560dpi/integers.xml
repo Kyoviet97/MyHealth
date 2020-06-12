@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="sb_size_circle_select">13</integer>
+    <integer name="sb_padding_top_tooltip">85</integer>
+    <integer name="sb_padding_bottom_text_tooltip">37</integer>
+    <integer name="sb_size_background">33</integer>
+    <integer name="sb_size_tooltip">100</integer>
+    <integer name="sb_size_text_tooltip">45</integer>
+    <integer name="margin_top_logo">240</integer>
+    <integer name="margin_bottom_btn_face">810</integer>
+    <integer name="margin_bottom_btn_dk">1165</integer>
+    <integer name="txt_size_switch">45</integer>
+    <integer name="txt_padding_left_210">210</integer>
+
+</resources>
