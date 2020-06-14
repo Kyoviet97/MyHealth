@@ -66,6 +66,7 @@ public class NewMemberAcitivity extends Activity implements View.OnClickListener
             SharedPreferences.setDataString(this, "MY_DATA_HEALTH", new Gson().toJson(userModel));
 
             startActivity(new Intent(this, HealthActivity.class));
+            finish();
 
         }
 

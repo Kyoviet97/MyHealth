@@ -63,16 +63,21 @@ public class FragmentHealth extends Fragment implements SensorEventListener {
     }
 
     private void getData() {
+        dateCurrent = getDateCurrent();
+        dataHealth = gson.fromJson(SharedPreferences.getDataString(getActivity(), dateCurrent), UserModel.DataHealth.class);
+        if (dataHealth != null){
+            step = dataHealth.getStep();
+        }else {
+            step = 0;
+        }
+    }
+
+    private String getDateCurrent(){
         calendar = Calendar.getInstance();
         String DAY = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
         String MONTH = String.valueOf(calendar.get(Calendar.MONTH) + 1);
         String YEAR = String.valueOf(calendar.get(Calendar.YEAR));
-        dateCurrent = DAY + "/" + MONTH + "/" + YEAR;
-
-        dataHealth = gson.fromJson(SharedPreferences.getDataString(getActivity(), dateCurrent), UserModel.DataHealth.class);
-        if (dataHealth != null){
-            step = dataHealth.getStep();
-        }
+        return DAY + "/" + MONTH + "/" + YEAR;
     }
 
     private void checkSensorStep() {
@@ -90,10 +95,13 @@ public class FragmentHealth extends Fragment implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        step++;
+        if (!dateCurrent.equals(getDateCurrent())){
+            getData();
+        }
         txtSensor.setText("" + step);
         reviewHealthToday(step);
         SharedPreferences.setDataString(getActivity(), dateCurrent, gson.toJson(new UserModel.DataHealth(step, 0, 0, 0)));
+        step++;
 
     }
 

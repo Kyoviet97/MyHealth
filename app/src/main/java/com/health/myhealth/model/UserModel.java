@@ -28,9 +28,9 @@ public class UserModel {
         private int step;
         private int car;
         private int bike;
-        private int sleep;
+        private long sleep;
 
-        public DataHealth(int step, int car, int bike, int sleep) {
+        public DataHealth(int step, int car, int bike, long sleep) {
             this.step = step;
             this.car = car;
             this.bike = bike;
@@ -61,7 +61,7 @@ public class UserModel {
             this.bike = bike;
         }
 
-        public int getSleep() {
+        public long getSleep() {
             return sleep;
         }
 
