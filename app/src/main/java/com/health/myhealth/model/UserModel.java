@@ -6,6 +6,7 @@ public class UserModel {
     private String userName;
     private String weight;
     private String age;
+    private String height;
     private List<DateHealth> listDateHealth;
 
     public static class DateHealth {
@@ -26,13 +27,11 @@ public class UserModel {
 
     public static class DataHealth{
         private int step;
-        private int car;
         private int bike;
         private long sleep;
 
-        public DataHealth(int step, int car, int bike, long sleep) {
+        public DataHealth(int step, int bike, long sleep) {
             this.step = step;
-            this.car = car;
             this.bike = bike;
             this.sleep = sleep;
         }
@@ -43,14 +42,6 @@ public class UserModel {
 
         public void setStep(int step) {
             this.step = step;
-        }
-
-        public int getCar() {
-            return car;
-        }
-
-        public void setCar(int car) {
-            this.car = car;
         }
 
         public int getBike() {
@@ -92,6 +83,14 @@ public class UserModel {
 
     public void setWeight(String weight) {
         this.weight = weight;
+    }
+
+    public String getHeight() {
+        return height;
+    }
+
+    public void setHeight(String height) {
+        this.height = height;
     }
 
     public List<DateHealth> getListDateHealth() {

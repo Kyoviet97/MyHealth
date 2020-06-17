@@ -82,10 +82,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     }
 
     private void getDate() {
-        String DAY = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
-        String MONTH = String.valueOf(calendar.get(Calendar.MONTH) + 1);
-        String YEAR = String.valueOf(calendar.get(Calendar.YEAR));
-        dateCurrent = DAY + "/" + MONTH + "/" + YEAR;
+        dateCurrent = Utils.getDateCurrent();
     }
 
     private void setOnClick() {

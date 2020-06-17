@@ -12,7 +12,7 @@
         android:id="@+id/txt_review_health_today"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="234 bước (2334 kcal , 1.72 km)"
+        android:text="Đang lất dữ liệu..."
         android:textSize="@dimen/_14sp"
         android:textColor="@android:color/black"
         android:layout_marginLeft="@dimen/_6dp"/>
@@ -29,13 +29,12 @@
         android:id="@+id/txt_sensor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2330"
+        android:text="0"
         android:layout_marginTop="@dimen/_18dp"
         android:background="@drawable/bkg_step_count"
         android:gravity="center"
         android:textStyle="bold"
         android:textSize="@dimen/_29sp"
         android:textColor="#F88113"/>
-
 
 </LinearLayout>

@@ -15,6 +15,7 @@ public class NewMemberAcitivity extends Activity implements View.OnClickListener
     private EditText edtFullName;
     private EditText edtCanNang;
     private EditText edtDoTuoi;
+    private EditText edtChieuCao;
     private Button btnHoanThanhTT;
     private String dateCurrent;
     private UserModel userModel;
@@ -35,6 +36,7 @@ public class NewMemberAcitivity extends Activity implements View.OnClickListener
         edtFullName = findViewById(R.id.edt_full_name);
         edtDoTuoi = findViewById(R.id.edt_tuoi);
         edtCanNang = findViewById(R.id.edt_can_nang);
+        edtChieuCao = findViewById(R.id.edt_chieu_cao);
         btnHoanThanhTT = findViewById(R.id.btn_hoan_tat);
         userModel = new UserModel();
         dateHealthList = new ArrayList<>();
@@ -48,10 +50,13 @@ public class NewMemberAcitivity extends Activity implements View.OnClickListener
         String fullName = edtFullName.getText().toString();
         String canNang = edtCanNang.getText().toString();
         String doTuoi = edtDoTuoi.getText().toString();
+        String chieuCao = edtChieuCao.getText().toString();
 
         if (fullName.equals("")) {
             edtFullName.setError("Không được để trống");
         } else if (doTuoi.equals("")) {
+            edtDoTuoi.setError("Không được để trống");
+        }else if (chieuCao.equals("")) {
             edtDoTuoi.setError("Không được để trống");
         } else if (canNang.equals("")) {
             edtCanNang.setError("Không được để trống");
@@ -60,6 +65,7 @@ public class NewMemberAcitivity extends Activity implements View.OnClickListener
             userModel.setUserName(fullName);
             userModel.setAge(doTuoi);
             userModel.setWeight(canNang);
+            userModel.setHeight(chieuCao);
             dateHealthList.add(new UserModel.DateHealth(dateCurrent));
             userModel.getListDateHealth(dateHealthList);
 
