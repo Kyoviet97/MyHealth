@@ -1,4 +1,4 @@
-package com.health.myhealth;
+package com.health.myhealth.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

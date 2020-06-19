@@ -12,19 +12,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
+import com.health.myhealth.DialogHistoryHealth;
 import com.health.myhealth.R;
-import com.health.myhealth.SharedPreferences;
+import com.health.myhealth.utils.OnClickRecyclerView;
+import com.health.myhealth.utils.SharedPreferences;
 import com.health.myhealth.adapter.AdapterRecyclerHistory;
 import com.health.myhealth.model.UserModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FragmentHistory extends Fragment {
+public class FragmentHistory extends Fragment implements OnClickRecyclerView {
     private View rootView;
     private RecyclerView recyclerHistoryHealth;
     private AdapterRecyclerHistory adapterRecyclerHistory;
     private List<UserModel.DateHealth> dateHealthList;
+    private DialogHistoryHealth dialogHistoryHealth;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,7 +35,6 @@ public class FragmentHistory extends Fragment {
         dateHealthList = new ArrayList<>();
         UserModel userModel = new Gson().fromJson(SharedPreferences.getDataString(getActivity(), "MY_DATA_HEALTH"), UserModel.class);
         if (userModel != null){
-            System.out.println("===================>>>> " + new Gson().toJson(userModel.getListDateHealth()));
             dateHealthList = userModel.getListDateHealth();
         }
     }
@@ -53,11 +55,18 @@ public class FragmentHistory extends Fragment {
 
     private void init() {
         recyclerHistoryHealth = rootView.findViewById(R.id.recycler_history_health);
+        dialogHistoryHealth = new DialogHistoryHealth(getActivity());
     }
 
     private void setRecyclerView() {
-        adapterRecyclerHistory = new AdapterRecyclerHistory(dateHealthList);
+        adapterRecyclerHistory = new AdapterRecyclerHistory(dateHealthList, this);
         recyclerHistoryHealth.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerHistoryHealth.setAdapter(adapterRecyclerHistory);
+    }
+
+    @Override
+    public void onClickRecyclerView(String date) {
+        dialogHistoryHealth.onShowDialog(date);
+        System.out.println("=================>>>> " + date);
     }
 }

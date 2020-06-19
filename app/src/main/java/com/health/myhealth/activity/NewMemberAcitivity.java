@@ -1,4 +1,4 @@
-package com.health.myhealth;
+package com.health.myhealth.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import com.google.gson.Gson;
+import com.health.myhealth.R;
+import com.health.myhealth.utils.SharedPreferences;
 import com.health.myhealth.model.UserModel;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +72,7 @@ public class NewMemberAcitivity extends Activity implements View.OnClickListener
             userModel.getListDateHealth(dateHealthList);
 
             SharedPreferences.setDataString(this, "MY_DATA_HEALTH", new Gson().toJson(userModel));
-
+            SharedPreferences.setDataInt(this, "CHECK_LOGIN", 1);
             startActivity(new Intent(this, HealthActivity.class));
             finish();
 

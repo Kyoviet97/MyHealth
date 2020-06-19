@@ -10,14 +10,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.health.myhealth.R;
 import com.health.myhealth.model.UserModel;
+import com.health.myhealth.utils.OnClickRecyclerView;
 
 import java.util.List;
 
 public class AdapterRecyclerHistory extends RecyclerView.Adapter<AdapterRecyclerHistory.ViewHolder>{
     public List<UserModel.DateHealth> dateHealthList;
+    public OnClickRecyclerView onClickRecyclerView;
 
-    public AdapterRecyclerHistory(List<UserModel.DateHealth> dateHealthList) {
+    public AdapterRecyclerHistory(List<UserModel.DateHealth> dateHealthList, OnClickRecyclerView onClickRecyclerView) {
         this.dateHealthList = dateHealthList;
+        this.onClickRecyclerView = onClickRecyclerView;
     }
 
     @NonNull
@@ -29,8 +32,14 @@ public class AdapterRecyclerHistory extends RecyclerView.Adapter<AdapterRecycler
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         holder.txtDateHistory.setText(dateHealthList.get(position).getDate());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickRecyclerView.onClickRecyclerView(dateHealthList.get(position).getDate());
+            }
+        });
     }
 
     @Override
@@ -45,4 +54,5 @@ public class AdapterRecyclerHistory extends RecyclerView.Adapter<AdapterRecycler
             txtDateHistory = itemView.findViewById(R.id.txt_date_history);
         }
     }
+
 }

@@ -1,4 +1,4 @@
-package com.health.myhealth;
+package com.health.myhealth.activity;
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,9 +10,10 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTabHost;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
+import com.health.myhealth.R;
+import com.health.myhealth.adapter.ViewPagerAdapter;
 import com.health.myhealth.fragment.FragmentHealth;
 import com.health.myhealth.fragment.FragmentHistory;
 import com.health.myhealth.service.ScreenReceiver;
@@ -91,12 +92,14 @@ public class HealthActivity extends AppCompatActivity {
         return false;
     }
 
+
     private void startServiceHealth(){
         if (!isMyServiceRunning(Service.class)){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 startForegroundService(new Intent(this, Service.class));
                 return;
             }
+            startService(new Intent(this, Service.class));
         }
     }
 
@@ -113,5 +116,7 @@ public class HealthActivity extends AppCompatActivity {
             unregisterReceiver(mReceiver);
             mReceiver = null;
         }
+
+        startServiceHealth();
     }
 }

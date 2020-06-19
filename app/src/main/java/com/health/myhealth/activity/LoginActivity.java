@@ -1,4 +1,4 @@
-package com.health.myhealth;
+package com.health.myhealth.activity;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -6,31 +6,34 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
+import com.health.myhealth.R;
+import com.health.myhealth.utils.SharedPreferences;
+import com.health.myhealth.utils.Utils;
 import com.health.myhealth.model.UserModel;
 import com.health.myhealth.service.ScreenReceiver;
 import com.health.myhealth.service.Service;
 
-import java.util.Calendar;
 import java.util.List;
 
 public class LoginActivity extends Activity implements View.OnClickListener {
     private EditText edtUserName;
     private EditText edtPassWord;
     private Button btnLogin;
-    private Calendar calendar;
     private String dateCurrent;
     private String dataHealth;
     private UserModel userModel;
     private List<UserModel.DateHealth> dateHealthList;
     private BroadcastReceiver mReceiver = null;
     private boolean isOffScreen = true;
+
+    private LinearLayout mainLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         getDate();
         setOnClick();
         checkScreenOff();
+        checkLogin();
     }
 
     @Override
@@ -54,11 +58,22 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         super.onPause();
             if (isOffScreen && ScreenReceiver.wasScreenOn){
                 System.out.println("====================>>>> SCREEN TURNED OFF");
-                dataHealth = SharedPreferences.getDataString(this, "MY_DATA_HEALTH");
-                if (!dataHealth.equals("")){
-                    startServiceHealth();
-                }
+                getData();
         }
+    }
+
+    private void checkLogin(){
+        int isLogin = SharedPreferences.getDataInt(this, "CHECK_LOGIN");
+        if (isLogin == 1){
+            getDate();
+            checkDate();
+        }else {
+            mainLogin.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void getData(){
+        dataHealth = SharedPreferences.getDataString(this, "MY_DATA_HEALTH");
     }
 
     private void checkScreenOff(){
@@ -75,10 +90,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     }
 
     private void init() {
+        mainLogin = findViewById(R.id.main_login);
         edtUserName = findViewById(R.id.edt_user_name);
         edtPassWord = findViewById(R.id.edt_password);
         btnLogin = findViewById(R.id.btn_login);
-        calendar = Calendar.getInstance();
     }
 
     private void getDate() {
@@ -99,13 +114,14 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             edtPassWord.setError("Không được để trống");
         } else if (userName.equals("admin") && passWord.equals("123")) {
             isOffScreen = false;
-            dataHealth = SharedPreferences.getDataString(this, "MY_DATA_HEALTH");
+            getData();
             if (dataHealth.equals("")) {
                 isOffScreen = false;
                 Intent intentHealth = new Intent(this, NewMemberAcitivity.class);
                 intentHealth.putExtra("dateCurrent", dateCurrent);
                 startActivity(intentHealth);
             } else {
+                SharedPreferences.setDataInt(this, "CHECK_LOGIN", 1);
                 checkDate();
             }
         }
@@ -113,6 +129,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     }
 
     private void checkDate() {
+        getData();
         userModel = new Gson().fromJson(dataHealth, UserModel.class);
         dateHealthList = userModel.getListDateHealth();
 
@@ -137,6 +154,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private void goToHealthMain() {
         Intent intentHealth = new Intent(this, HealthActivity.class);
         startActivity(intentHealth);
+        finish();
     }
 
     @Override
@@ -158,16 +176,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         return false;
     }
 
-    private void startServiceHealth(){
-        if (!isMyServiceRunning(Service.class)){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startForegroundService(new Intent(this, Service.class));
-                return;
-            }
-            startService(new Intent(this, Service.class));
-        }
-    }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -184,11 +192,5 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             unregisterReceiver(mReceiver);
             mReceiver = null;
         }
-
-        dataHealth = SharedPreferences.getDataString(this, "MY_DATA_HEALTH");
-        if (!dataHealth.equals("")){
-            startServiceHealth();
-        }
-
     }
 }

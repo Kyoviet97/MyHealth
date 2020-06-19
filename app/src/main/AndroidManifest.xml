@@ -17,13 +17,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".NewMemberAcitivity"
+            android:name=".activity.NewMemberAcitivity"
             android:windowSoftInputMode="adjustResize">
 
         </activity>
-        <activity android:name=".HealthActivity" />
+        <activity android:name=".activity.HealthActivity" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".activity.LoginActivity"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

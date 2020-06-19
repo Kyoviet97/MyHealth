@@ -1,4 +1,4 @@
-package com.health.myhealth;
+package com.health.myhealth.utils;
 
 public class SensorFilter {
  

@@ -11,4 +11,9 @@
     <style name="style_edit_text_login">
     </style>
 
+    <style name="Theme_dialog_history" parent="Theme.AppCompat.Light.Dialog">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
 </resources>
