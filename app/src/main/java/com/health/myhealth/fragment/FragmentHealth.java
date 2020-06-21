@@ -16,7 +16,6 @@ import com.health.myhealth.utils.Utils;
 public class FragmentHealth extends Fragment implements ListenerEventSensor {
     private View rootView;
     private TextView txtSensor;
-    private TextView reviewHealthToday;
     private SensorManager sensorManager;
 
     private TextView txtStep;
@@ -41,29 +40,35 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
 
     private void init() {
         txtSensor = rootView.findViewById(R.id.txt_sensor);
-
         txtStep = rootView.findViewById(R.id.txt_step);
         txtRun = rootView.findViewById(R.id.txt_run);
         txtSleep = rootView.findViewById(R.id.txt_sleep);
         txtCalo = rootView.findViewById(R.id.txt_calo);
         txtLong = rootView.findViewById(R.id.txt_long);
-
-        reviewHealthToday = rootView.findViewById(R.id.txt_review_health_today);
         sensorManager = new SensorManager(getActivity(), this);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        sensorManager.setPauseCountStep(false);
+    }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onPause() {
+        super.onPause();
+        sensorManager.setPauseCountStep(true);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
         sensorManager.unregisterListener();
     }
 
-
     @Override
-    public void eventSensor(int step, int run, int sleep, double calo, double quangDuong) {
+    public void eventSensor(int step, int run, long sleep, double calo, double quangDuong) {
         txtSensor.setText(String.valueOf(step));
-
         txtStep.setText(String.valueOf((step - run)));
         txtRun.setText( String.valueOf(run));
         txtSleep.setText(Utils.showTimeSleep2(sleep));

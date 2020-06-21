@@ -28,6 +28,15 @@ public class Utils {
         }
     }
 
+    public static boolean checkTimeSleep() {
+        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        if (hour >= 22 || hour <= 6) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public static String showTimeSleep(long sleep) {
         long HSleep = (sleep / 60 / 60) % 60;
         long MSleep = (sleep / 60) % 60;
@@ -64,6 +73,23 @@ public class Utils {
         return srtHSleep + ":" + srtMSleep;
     }
 
+    public static String showTimeSleep3(long sleep) {
+        long HSleep = (sleep / 60 / 60) % 60;
+        long MSleep = (sleep / 60) % 60;
+
+        String srtHSleep = String.valueOf(HSleep);
+        String srtMSleep = String.valueOf(MSleep);
+
+        if (srtHSleep.length() == 1) {
+            srtHSleep = "0" + srtHSleep;
+        }
+
+        if (srtMSleep.length() == 1) {
+            srtMSleep = "0" + srtMSleep;
+        }
+
+        return srtHSleep + "giờ " + srtMSleep + "phút";
+    }
 
     public static double getCalo(double chieuCao, double canNang, int tuoi, boolean isRun){
         double calo = 0;
@@ -71,11 +97,10 @@ public class Utils {
         if (isRun){
             vanToc = 10;
         }
-
         double chieuCaoX2 =  (chieuCao/100) * (chieuCao/100);
         double bmi = (canNang/chieuCaoX2);
         calo = .04 * (bmi + (vanToc * 0.621371192)) / tuoi;
-
         return calo;
     }
+
 }

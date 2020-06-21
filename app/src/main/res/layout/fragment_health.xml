@@ -8,16 +8,6 @@
     android:paddingTop="@dimen/_10dp"
     android:background="@android:color/white">
 
-    <TextView
-        android:id="@+id/txt_review_health_today"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Đang lất dữ liệu..."
-        android:visibility="gone"
-        android:textStyle="bold"
-        android:textSize="@dimen/_14sp"
-        android:textColor="#363D50" />
-
 
     <TextView
         android:id="@+id/txt_sensor"
@@ -90,7 +80,7 @@
                 android:layout_width="@dimen/_50dp"
                 android:layout_height="@dimen/_50dp"
                 android:adjustViewBounds="true"
-                android:src="@drawable/ic_directions_run_black_24dp"/>
+                android:src="@drawable/ic_sport"/>
 
             <TextView
                 android:id="@+id/txt_run"
@@ -125,27 +115,29 @@
                 android:layout_width="@dimen/_50dp"
                 android:layout_height="@dimen/_50dp"
                 android:adjustViewBounds="true"
-                android:src="@drawable/ic_sleep"/>
+                android:src="@drawable/ic_room_black_24dp"/>
 
             <TextView
-                android:id="@+id/txt_sleep"
+                android:id="@+id/txt_long"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_20sp"
                 android:textStyle="bold"
                 android:textColor="#363D50"
                 android:gravity="center"
-                android:text="06:30"/>
+                android:text="1000"/>
+
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_14sp"
+                android:layout_marginTop="-5dp"
                 android:textStyle="bold"
                 android:textColor="#9FAECF"
                 android:gravity="center"
-                android:layout_marginTop="-5dp"
-                android:text="giờ"/>
+                android:text="km"/>
+
 
         </LinearLayout>
 
@@ -208,28 +200,27 @@
                 android:layout_width="@dimen/_50dp"
                 android:layout_height="@dimen/_50dp"
                 android:adjustViewBounds="true"
-                android:src="@drawable/ic_room_black_24dp"/>
+                android:src="@drawable/ic_sleep"/>
 
             <TextView
-                android:id="@+id/txt_long"
+                android:id="@+id/txt_sleep"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_20sp"
                 android:textStyle="bold"
                 android:textColor="#363D50"
                 android:gravity="center"
-                android:text="1000"/>
-
+                android:text="06:30"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_14sp"
-                android:layout_marginTop="-5dp"
                 android:textStyle="bold"
                 android:textColor="#9FAECF"
                 android:gravity="center"
-                android:text="km"/>
+                android:layout_marginTop="-5dp"
+                android:text="giờ:phút"/>
 
         </LinearLayout>
 

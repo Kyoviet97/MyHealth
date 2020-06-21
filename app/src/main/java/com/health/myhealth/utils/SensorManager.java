@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.health.myhealth.model.UserModel;
 
 import static android.content.Context.SENSOR_SERVICE;
+
 public class SensorManager implements SensorEventListener, StepListener {
     private Context context;
 
@@ -17,6 +18,8 @@ public class SensorManager implements SensorEventListener, StepListener {
     private Sensor accelSensor;
     private Gson gson;
     private UserModel.DataHealth dataHealth;
+
+    private boolean isPauseCountStep = false;
 
     private int STEP;
     private int RUN;
@@ -27,24 +30,24 @@ public class SensorManager implements SensorEventListener, StepListener {
     private float canNang;
     private int soTuoi;
 
-    private int x = 0;
-    private long stepOne;
-    private long stepTow;
+    private long timeNsOld;
 
     private ListenerEventSensor listenerEventSensor;
 
-    public SensorManager(Context context, ListenerEventSensor listenerEventSensor) {
+    public SensorManager(Context context,  ListenerEventSensor listenerEventSensor) {
         this.context = context;
         this.listenerEventSensor = listenerEventSensor;
+        isPauseCountStep = false;
         init();
     }
 
     private void init() {
+        STEP = 0;
+        SLEEP = 0;
+        RUN = 0;
         gson = new Gson();
-        getDateCurrent();
         getData();
         tongHopKetQua();
-
         mSensorManager = (android.hardware.SensorManager) context.getSystemService(SENSOR_SERVICE);
         accelSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         simpleStepDetector = new StepDetector();
@@ -52,12 +55,12 @@ public class SensorManager implements SensorEventListener, StepListener {
         mSensorManager.registerListener(SensorManager.this, accelSensor, android.hardware.SensorManager.SENSOR_DELAY_FASTEST);
     }
 
-    private void getDateCurrent(){
-        dateCurrent = Utils.getDateCurrent();
+    public void unregisterListener() {
+        mSensorManager.unregisterListener(this);
     }
 
-    public void unregisterListener(){
-        mSensorManager.unregisterListener(this);
+    public void setPauseCountStep(boolean isPause){
+        isPauseCountStep = isPause;
     }
 
     private void getData() {
@@ -70,23 +73,20 @@ public class SensorManager implements SensorEventListener, StepListener {
         this.chieuCao = Float.parseFloat(userModel.getHeight());
 
         String strData = SharedPreferences.getDataString(context, dateCurrent);
-        if (!strData.equals("")){
+        if (!strData.equals("")) {
             dataHealth = gson.fromJson(strData, UserModel.DataHealth.class);
-            if (dataHealth != null){
+            if (dataHealth != null) {
                 STEP = dataHealth.getStep();
                 SLEEP = dataHealth.getSleep();
                 RUN = dataHealth.getBike();
-            }else {
-                STEP = 0;
-                SLEEP = 0;
-                RUN = 0;
             }
         }else {
-            STEP = 0;
-            SLEEP = 0;
-            RUN = 0;
+            UserModel.DataHealth newData = new UserModel.DataHealth(0, 0, 0);
+            SharedPreferences.setDataString(context, dateCurrent, new Gson().toJson(newData));
+            getData();
         }
     }
+
 
 
     @Override
@@ -103,42 +103,28 @@ public class SensorManager implements SensorEventListener, StepListener {
 
     @Override
     public void step(long timeNs) {
+       if (!isPauseCountStep){
+           getData();
+           STEP++;
+           System.out.println("==================>>>>> STEP: " + STEP);
+           if ((timeNs - timeNsOld) < 500000000) {
+               RUN++;
+               SharedPreferences.setDataString(context, dateCurrent, gson.toJson(new UserModel.DataHealth(STEP, RUN, SLEEP)));
 
-        if (x == 0){
-            x = 1;
-            stepOne = System.currentTimeMillis();
-        }else {
-            x = 0;
-            stepTow = System.currentTimeMillis();
-            STEP++;
-            if ((stepTow - stepOne) < 500){
-                System.out.println("=======================>>> CHẠY");
-                RUN++;
-                SharedPreferences.setDataString(context, dateCurrent, gson.toJson(new UserModel.DataHealth(STEP, RUN, SLEEP)));
-
-            }else {
-                System.out.println("=======================>>> ĐI BỘ");
-                SharedPreferences.setDataString(context, dateCurrent, gson.toJson(new UserModel.DataHealth(STEP, RUN, SLEEP)));
-            }
-
-            tongHopKetQua();
-        }
+           } else {
+               SharedPreferences.setDataString(context, dateCurrent, gson.toJson(new UserModel.DataHealth(STEP, RUN, SLEEP)));
+           }
+           timeNsOld = timeNs;
+           tongHopKetQua();
+       }
     }
 
-    private void tongHopKetQua(){
+    private void tongHopKetQua() {
         double caloDiBo = (STEP - RUN) * Utils.getCalo(chieuCao, canNang, soTuoi, false);
         double caloChay = RUN * Utils.getCalo(chieuCao, canNang, soTuoi, true);
-
-        System.out.println("====================>>> dibo: " + caloDiBo);
-        System.out.println("====================>>> chay: " + caloChay);
-
         double kmDiBo = (STEP - RUN) * 0.00075;
         double kmChay = RUN * 0.00085;
-
-        System.out.println("==================>>>>RUN = " + RUN);
-        System.out.println("==================>>>>STEP = " + STEP);
-
-        listenerEventSensor.eventSensor(STEP, RUN, 1200, (caloDiBo + caloChay) ,(kmDiBo + kmChay));
+        listenerEventSensor.eventSensor(STEP, RUN, SLEEP, (caloDiBo + caloChay), (kmDiBo + kmChay));
 
     }
 }

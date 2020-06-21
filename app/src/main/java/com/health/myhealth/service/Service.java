@@ -9,48 +9,39 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+
 import com.google.gson.Gson;
+import com.health.myhealth.model.UserModel;
 import com.health.myhealth.utils.ListenerEventSensor;
 import com.health.myhealth.activity.LoginActivity;
 import com.health.myhealth.R;
 import com.health.myhealth.utils.SensorManager;
 import com.health.myhealth.utils.SharedPreferences;
 import com.health.myhealth.utils.Utils;
-import com.health.myhealth.model.UserModel;
-
-import java.util.Calendar;
 
 public class Service extends android.app.Service implements ListenerEventSensor {
-    private static final int TIME_IS_SLEEP = 600000;
     private SensorManager sensorManager;
-
-    private UserModel.DataHealth dataHealth;
-    private Gson gson;
-    private Handler handler;
-
-    private boolean isRunSenserCountSleep = false;
-    private boolean isSenser = false;
     private boolean isFirstRun = false;
 
     private int timeCountNoSenser = 0;
-    private int STEP;
-    private int RUN;
-    private long SLEEP;
+    private static final int TIME_IS_SLEEP = 3;
+    private Handler handlerCountTime;
+    private boolean stopHandlerCountTime = false;
+    private boolean isHandlerCountTimeRun = false;
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        System.out.println("===============>> onBind");
         return null;
     }
-
 
     @Override
     public void onCreate() {
         super.onCreate();
-        System.out.println("===============>> onCreate");
+        System.out.println("=====================>>> onCreate");
         init();
     }
 
@@ -61,8 +52,6 @@ public class Service extends android.app.Service implements ListenerEventSensor 
 
     private void init() {
         isFirstRun = true;
-        gson = new Gson();
-        getData();
         sensorManager = new SensorManager(Service.this, this);
     }
 
@@ -93,84 +82,63 @@ public class Service extends android.app.Service implements ListenerEventSensor 
 
     }
 
-
-    private boolean checkTimeSleep() {
-        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        if (hour >= 22 || hour <= 6) {
-            return true;
-        } else {
-            return false;
+    private void startCountTime() {
+        timeCountNoSenser = 0;
+        if (handlerCountTime == null) {
+            handlerCountTime = new Handler();
         }
-    }
-
-    private void countTimeStartSleep() {
-        isRunSenserCountSleep = true;
-        if (handler == null) {
-            handler = new Handler();
-        }
-        handler.postAtTime(new Runnable() {
-            @Override
-            public void run() {
-                if (isSenser) {
-                    handler.removeCallbacks(this);
-                    timeCountNoSenser = 0;
-                    isSenser = false;
-                } else {
-                    timeCountNoSenser = timeCountNoSenser + 1;
-                    System.out.println("====================>>TimeCountNoSenser: " + timeCountNoSenser);
-                    System.out.println(timeCountNoSenser);
-                    if (timeCountNoSenser >= TIME_IS_SLEEP) {
-                        isRunSenserCountSleep = false;
-                        //BAT DAU NGU O DAY
+        if (!isHandlerCountTimeRun) {
+            handlerCountTime.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (stopHandlerCountTime) {
+                        handlerCountTime.removeCallbacks(this);
+                        stopHandlerCountTime = false;
+                        isHandlerCountTimeRun = false;
+                    } else {
+                        isHandlerCountTimeRun = true;
+                        timeCountNoSenser = timeCountNoSenser + 1;
+                        System.out.println("======================>>>>>TIME: " + timeCountNoSenser);
+                        if (timeCountNoSenser >= TIME_IS_SLEEP) {
+                            getData();
+                        }
+                        handlerCountTime.postDelayed(this, 300000);
                     }
-                    handler.postDelayed(this, 1000);
                 }
-            }
-        }, 1000);
-
+            }, 0);
+        }
     }
 
+
+    private void getData() {
+        String dateCurrent = Utils.getDateCurrent();
+        String strData = SharedPreferences.getDataString(this, dateCurrent);
+        if (!strData.equals("")) {
+            UserModel.DataHealth dataHealth = new Gson().fromJson(strData, UserModel.DataHealth.class);
+            UserModel.DataHealth dataHealthUpdate = new UserModel.DataHealth(dataHealth.getStep(), dataHealth.getBike(), (dataHealth.getSleep() + 300));
+            SharedPreferences.setDataString(this, dateCurrent, new Gson().toJson(dataHealthUpdate));
+        }else {
+            isFirstRun = true;
+            UserModel.DataHealth newData = new UserModel.DataHealth(0, 0, 0);
+            SharedPreferences.setDataString(this, dateCurrent, new Gson().toJson(newData));
+            getData();
+        }
+    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        isSenser = true;
-        timeCountNoSenser = 0;
-
+        sensorManager.unregisterListener();
+        stopHandlerCountTime = true;
     }
-
-    private void checkTimeCountSleep() {
-        if (checkTimeSleep()) {
-            if (timeCountNoSenser == 0 && !isRunSenserCountSleep) {
-                countTimeStartSleep();
-            } else {
-                timeCountNoSenser = 0;
-            }
-        } else {
-            isSenser = true;
-        }
-    }
-
-    private void getData(){
-        String strData = SharedPreferences.getDataString(Service.this, Utils.getDateCurrent());
-        System.out.println("================>>>> " + strData);
-        dataHealth = gson.fromJson(strData, UserModel.DataHealth.class);
-
-        this.SLEEP = dataHealth.getSleep();
-        this.STEP = dataHealth.getStep();
-        this.RUN = dataHealth.getBike();
-    }
-
 
     @Override
-    public void eventSensor(int step, int run, int sleep, double calo, double quangDuong) {
-        getData();
-        checkTimeCountSleep();
+    public void eventSensor(int step, int run, long sleep, double calo, double quangDuong) {
         if (step % 30 == 0 || isFirstRun) {
             isFirstRun = false;
             String dataHoatDong = "Hoạt động: " + step + " bước (" + Math.round(calo * 100.0) / 100.0 + "kcal, " + Math.round(quangDuong * 100.0) / 100.0 + "km)";
-            System.out.println("===============>>>> " + dataHoatDong);
-            notication(dataHoatDong, Utils.showTimeSleep(SLEEP));
+            notication(dataHoatDong, Utils.showTimeSleep(sleep));
         }
+        startCountTime();
     }
 }

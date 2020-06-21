@@ -57,7 +57,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     protected void onPause() {
         super.onPause();
             if (isOffScreen && ScreenReceiver.wasScreenOn){
-                System.out.println("====================>>>> SCREEN TURNED OFF");
                 getData();
         }
     }
@@ -135,13 +134,11 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
         for (int i = 0; i <= dateHealthList.size(); i++) {
             if (i < dateHealthList.size()) {
-                System.out.println("===============>>>> " + i + "/" + dateHealthList.size());
                 if (dateHealthList.get(i).getDate().equals(dateCurrent)) {
                     goToHealthMain();
                     return;
                 }
             } else {
-                System.out.println("================>>>> max");
                 dateHealthList.add(new UserModel.DateHealth(dateCurrent));
                 userModel.getListDateHealth(dateHealthList);
                 SharedPreferences.setDataString(this, "MY_DATA_HEALTH", new Gson().toJson(userModel));
@@ -186,8 +183,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        System.out.println("=====================>>> LOGIN onDestroy");
-
         if (mReceiver != null) {
             unregisterReceiver(mReceiver);
             mReceiver = null;

@@ -24,36 +24,75 @@
                android:textColor="#363D50"
                android:gravity="center"
                android:textSize="@dimen/_16sp"
+               android:text="20/06/2020"
                android:textStyle="bold" />
 
-           <TextView
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:textColor="#363D50"
-               android:textSize="@dimen/_16sp"
-               android:text="Đi bộ: 2134 bước"
-               android:layout_marginTop="@dimen/_6dp"/>
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:weightSum="2"
+              android:layout_marginTop="@dimen/_10dp"
+              android:orientation="horizontal">
 
-           <TextView
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:textColor="#363D50"
-               android:textSize="@dimen/_16sp"
-               android:text="Chạy: 214 bước" />
+              <LinearLayout
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:orientation="vertical">
 
-           <TextView
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:textColor="#363D50"
-               android:textSize="@dimen/_16sp"
-               android:text="Calo: 213.4 calo" />
+                  <TextView
+                      android:id="@+id/txt_step"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:gravity="center"
+                      android:drawableTop="@drawable/ic_directions_walk_black_24dp"
+                      android:textSize="@dimen/_16sp"
+                      android:textColor="#363D50"/>
 
-           <TextView
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:textColor="#363D50"
-               android:textSize="@dimen/_16sp"
-               android:text="Ngủ: 06 giờ 34 phút" />
+
+                  <TextView
+                      android:id="@+id/txt_long"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:gravity="center"
+                      android:layout_marginTop="@dimen/_4dp"
+                      android:drawableTop="@drawable/ic_room_black_24dp"
+                      android:textSize="@dimen/_16sp"
+                      android:textColor="#363D50"/>
+
+
+              </LinearLayout>
+
+
+              <LinearLayout
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:orientation="vertical">
+
+                  <TextView
+                      android:id="@+id/txt_calo"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:gravity="center"
+                      android:drawableTop="@drawable/ic_fire"
+                      android:textSize="@dimen/_16sp"
+                      android:textColor="#363D50"/>
+
+
+                  <TextView
+                      android:id="@+id/txt_sleep"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:gravity="center"
+                      android:layout_marginTop="@dimen/_4dp"
+                      android:drawableTop="@drawable/ic_sleep"
+                      android:textSize="@dimen/_16sp"
+                      android:textColor="#363D50"/>
+
+              </LinearLayout>
+
+          </LinearLayout>
 
        </LinearLayout>
 

@@ -56,7 +56,7 @@ public class UserModel {
             return sleep;
         }
 
-        public void setSleep(int sleep) {
+        public void setSleep(long sleep) {
             this.sleep = sleep;
         }
     }

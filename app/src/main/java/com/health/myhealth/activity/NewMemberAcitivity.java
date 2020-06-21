@@ -29,7 +29,6 @@ public class NewMemberAcitivity extends Activity implements View.OnClickListener
         setContentView(R.layout.new_member_acitivity);
         Intent intent = getIntent();
         dateCurrent = intent.getStringExtra("dateCurrent");
-        System.out.println("==================>>>> " + dateCurrent);
         init();
         setOnClick();
     }
@@ -58,12 +57,17 @@ public class NewMemberAcitivity extends Activity implements View.OnClickListener
             edtFullName.setError("Không được để trống");
         } else if (doTuoi.equals("")) {
             edtDoTuoi.setError("Không được để trống");
+        } else if(Integer.parseInt(doTuoi) < 3){
+            edtDoTuoi.setError("Tuổi không hợp lệ");
         }else if (chieuCao.equals("")) {
-            edtDoTuoi.setError("Không được để trống");
-        } else if (canNang.equals("")) {
+            edtChieuCao.setError("Không được để trống");
+        } else if(Double.parseDouble(chieuCao) < 50){
+            edtChieuCao.setError("Chiều cao không được nhỏ hơn 50cm");
+        }else if (canNang.equals("")) {
             edtCanNang.setError("Không được để trống");
+        } else if(Double.parseDouble(canNang) < 10){
+            edtCanNang.setError("Cân nặng không được nhỏ hơn 10kg");
         } else {
-
             userModel.setUserName(fullName);
             userModel.setAge(doTuoi);
             userModel.setWeight(canNang);
@@ -75,7 +79,6 @@ public class NewMemberAcitivity extends Activity implements View.OnClickListener
             SharedPreferences.setDataInt(this, "CHECK_LOGIN", 1);
             startActivity(new Intent(this, HealthActivity.class));
             finish();
-
         }
 
     }
