@@ -18,7 +18,7 @@ import com.health.myhealth.utils.SharedPreferences;
 import com.health.myhealth.utils.Utils;
 import com.health.myhealth.model.UserModel;
 import com.health.myhealth.service.ScreenReceiver;
-import com.health.myhealth.service.Service;
+import com.health.myhealth.service.ServiceCountStep;
 
 import java.util.List;
 
@@ -83,8 +83,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     }
 
     private void checkServiceRun() {
-        if (isMyServiceRunning(Service.class)){
-            stopService(new Intent(this, Service.class));
+        if (isMyServiceRunning(ServiceCountStep.class)){
+            stopService(new Intent(this, ServiceCountStep.class));
         }
     }
 

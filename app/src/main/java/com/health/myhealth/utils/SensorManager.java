@@ -34,7 +34,7 @@ public class SensorManager implements SensorEventListener, StepListener {
 
     private ListenerEventSensor listenerEventSensor;
 
-    public SensorManager(Context context,  ListenerEventSensor listenerEventSensor) {
+    public SensorManager(Context context, ListenerEventSensor listenerEventSensor) {
         this.context = context;
         this.listenerEventSensor = listenerEventSensor;
         isPauseCountStep = false;
@@ -59,7 +59,7 @@ public class SensorManager implements SensorEventListener, StepListener {
         mSensorManager.unregisterListener(this);
     }
 
-    public void setPauseCountStep(boolean isPause){
+    public void setPauseCountStep(boolean isPause) {
         isPauseCountStep = isPause;
     }
 
@@ -80,13 +80,12 @@ public class SensorManager implements SensorEventListener, StepListener {
                 SLEEP = dataHealth.getSleep();
                 RUN = dataHealth.getBike();
             }
-        }else {
+        } else {
             UserModel.DataHealth newData = new UserModel.DataHealth(0, 0, 0);
             SharedPreferences.setDataString(context, dateCurrent, new Gson().toJson(newData));
             getData();
         }
     }
-
 
 
     @Override
@@ -103,20 +102,19 @@ public class SensorManager implements SensorEventListener, StepListener {
 
     @Override
     public void step(long timeNs) {
-       if (!isPauseCountStep){
-           getData();
-           STEP++;
-           System.out.println("==================>>>>> STEP: " + STEP);
-           if ((timeNs - timeNsOld) < 500000000) {
-               RUN++;
-               SharedPreferences.setDataString(context, dateCurrent, gson.toJson(new UserModel.DataHealth(STEP, RUN, SLEEP)));
+        if (!isPauseCountStep) {
+            getData();
+            STEP++;
+            if ((timeNs - timeNsOld) < 400000000) {
+                RUN++;
+                SharedPreferences.setDataString(context, dateCurrent, gson.toJson(new UserModel.DataHealth(STEP, RUN, SLEEP)));
 
-           } else {
-               SharedPreferences.setDataString(context, dateCurrent, gson.toJson(new UserModel.DataHealth(STEP, RUN, SLEEP)));
-           }
-           timeNsOld = timeNs;
-           tongHopKetQua();
-       }
+            } else {
+                SharedPreferences.setDataString(context, dateCurrent, gson.toJson(new UserModel.DataHealth(STEP, RUN, SLEEP)));
+            }
+            timeNsOld = timeNs;
+            tongHopKetQua();
+        }
     }
 
     private void tongHopKetQua() {

@@ -22,7 +22,7 @@ import com.health.myhealth.utils.SensorManager;
 import com.health.myhealth.utils.SharedPreferences;
 import com.health.myhealth.utils.Utils;
 
-public class Service extends android.app.Service implements ListenerEventSensor {
+public class ServiceCountStep extends android.app.Service implements ListenerEventSensor {
     private SensorManager sensorManager;
     private boolean isFirstRun = false;
 
@@ -41,7 +41,6 @@ public class Service extends android.app.Service implements ListenerEventSensor 
     @Override
     public void onCreate() {
         super.onCreate();
-        System.out.println("=====================>>> onCreate");
         init();
     }
 
@@ -52,7 +51,7 @@ public class Service extends android.app.Service implements ListenerEventSensor 
 
     private void init() {
         isFirstRun = true;
-        sensorManager = new SensorManager(Service.this, this);
+        sensorManager = new SensorManager(ServiceCountStep.this, this);
     }
 
     private void notication(String step, String sleep) {
@@ -98,8 +97,7 @@ public class Service extends android.app.Service implements ListenerEventSensor 
                     } else {
                         isHandlerCountTimeRun = true;
                         timeCountNoSenser = timeCountNoSenser + 1;
-                        System.out.println("======================>>>>>TIME: " + timeCountNoSenser);
-                        if (timeCountNoSenser >= TIME_IS_SLEEP) {
+                        if (timeCountNoSenser >= TIME_IS_SLEEP && Utils.checkTimeSleep()) {
                             getData();
                         }
                         handlerCountTime.postDelayed(this, 300000);

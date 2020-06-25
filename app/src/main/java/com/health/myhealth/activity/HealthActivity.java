@@ -17,7 +17,7 @@ import com.health.myhealth.adapter.ViewPagerAdapter;
 import com.health.myhealth.fragment.FragmentHealth;
 import com.health.myhealth.fragment.FragmentHistory;
 import com.health.myhealth.service.ScreenReceiver;
-import com.health.myhealth.service.Service;
+import com.health.myhealth.service.ServiceCountStep;
 
 public class HealthActivity extends AppCompatActivity {
     private TabLayout tabLayout;
@@ -59,8 +59,8 @@ public class HealthActivity extends AppCompatActivity {
     }
 
     private void checkServiceRun() {
-        if (isMyServiceRunning(Service.class)){
-            stopService(new Intent(this, Service.class));
+        if (isMyServiceRunning(ServiceCountStep.class)){
+            stopService(new Intent(this, ServiceCountStep.class));
         }
     }
 
@@ -94,12 +94,12 @@ public class HealthActivity extends AppCompatActivity {
 
 
     private void startServiceHealth(){
-        if (!isMyServiceRunning(Service.class)){
+        if (!isMyServiceRunning(ServiceCountStep.class)){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startForegroundService(new Intent(this, Service.class));
+                startForegroundService(new Intent(this, ServiceCountStep.class));
                 return;
             }
-            startService(new Intent(this, Service.class));
+            startService(new Intent(this, ServiceCountStep.class));
         }
     }
 
