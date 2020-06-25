@@ -46,7 +46,6 @@ public class HealthActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         if (isOffScreen && ScreenReceiver.wasScreenOn){
-            System.out.println("====================>>>> SCREEN TURNED OFF");
             startServiceHealth();
         }
     }

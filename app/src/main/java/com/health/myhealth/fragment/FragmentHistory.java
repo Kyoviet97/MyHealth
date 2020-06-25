@@ -67,6 +67,5 @@ public class FragmentHistory extends Fragment implements OnClickRecyclerView {
     @Override
     public void onClickRecyclerView(String date) {
         dialogHistoryHealth.onShowDialog(date);
-        System.out.println("=================>>>> " + date);
     }
 }
