@@ -9,7 +9,7 @@
         android:id="@+id/txt_date_history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/_6dp"
+        android:padding="@dimen/_10dp"
         android:textColor="@android:color/black"
         android:textSize="@dimen/_14sp"/>
 

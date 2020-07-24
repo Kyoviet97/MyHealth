@@ -81,6 +81,34 @@ public class ServiceCountStep extends android.app.Service implements ListenerEve
 
     }
 
+
+    private void showNotication(String title, String content) {
+        if (Build.VERSION.SDK_INT >= 26) {
+            String CHANNEL_ID = "service_my_health";
+
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
+                    "Count Step",
+                    NotificationManager.IMPORTANCE_NONE);
+
+            PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+                    new Intent(this, LoginActivity.class), 0);
+
+
+            ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
+
+            Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_favorite)  // the status icon
+                    .setWhen(System.currentTimeMillis())  // the time stamp
+                    .setContentTitle(title)  // the label of the entry
+                    .setContentText(content)  // the contents of the entry
+                    .setContentIntent(contentIntent)  // The intent to send when the entry is clicked
+                    .build();
+
+            startForeground(2, notification);
+        }
+
+    }
+
     private void startCountTime() {
         timeCountNoSenser = 0;
         if (handlerCountTime == null) {
@@ -100,6 +128,9 @@ public class ServiceCountStep extends android.app.Service implements ListenerEve
                         if (timeCountNoSenser >= TIME_IS_SLEEP && Utils.checkTimeSleep()) {
                             getData();
                         }
+                        if ((timeCountNoSenser % 12 == 0) && !Utils.checkTimeSleep()) {
+                            showNotication("Bạn đã nghỉ ngơi trong một thời gian dài", "Hãy đứng lên và vận động cơ thể");
+                        }
                         handlerCountTime.postDelayed(this, 300000);
                     }
                 }
@@ -115,7 +146,7 @@ public class ServiceCountStep extends android.app.Service implements ListenerEve
             UserModel.DataHealth dataHealth = new Gson().fromJson(strData, UserModel.DataHealth.class);
             UserModel.DataHealth dataHealthUpdate = new UserModel.DataHealth(dataHealth.getStep(), dataHealth.getBike(), (dataHealth.getSleep() + 300));
             SharedPreferences.setDataString(this, dateCurrent, new Gson().toJson(dataHealthUpdate));
-        }else {
+        } else {
             isFirstRun = true;
             UserModel.DataHealth newData = new UserModel.DataHealth(0, 0, 0);
             SharedPreferences.setDataString(this, dateCurrent, new Gson().toJson(newData));

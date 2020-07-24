@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.health.myhealth.R;
@@ -32,7 +33,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private List<UserModel.DateHealth> dateHealthList;
     private BroadcastReceiver mReceiver = null;
     private boolean isOffScreen = true;
-
+    private boolean isLogout = false;
     private LinearLayout mainLogin;
 
     @Override
@@ -40,6 +41,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         init();
+        checkTypeLogout();
         getDate();
         setOnClick();
         checkScreenOff();
@@ -61,9 +63,14 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         }
     }
 
+    private void checkTypeLogout() {
+        Intent getIntent = getIntent();
+        this.isLogout = getIntent.getBooleanExtra("type", false);
+    }
+
     private void checkLogin(){
         int isLogin = SharedPreferences.getDataInt(this, "CHECK_LOGIN");
-        if (isLogin == 1){
+        if (isLogin == 1 && !isLogout){
             getDate();
             checkDate();
         }else {
@@ -123,6 +130,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 SharedPreferences.setDataInt(this, "CHECK_LOGIN", 1);
                 checkDate();
             }
+        }else {
+            Toast.makeText(this, "Sai tên đăng nhập hoặc mật khẩu", Toast.LENGTH_SHORT).show();
         }
 
     }
