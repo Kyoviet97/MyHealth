@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.widget.Toast;
 
+//Dịch vụ khởi động cùng thiết bị nếu hết pin hoặc restart máy
 public class ServiceRunOnStartup extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {

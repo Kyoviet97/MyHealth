@@ -1,5 +1,6 @@
 package com.health.myhealth.utils;
 
+//Kiểm tra tốc độ di chuyển
 public class SensorFilter {
  
   private SensorFilter() {

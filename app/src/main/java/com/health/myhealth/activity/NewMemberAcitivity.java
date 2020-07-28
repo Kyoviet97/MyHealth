@@ -48,6 +48,7 @@ public class NewMemberAcitivity extends Activity implements View.OnClickListener
     }
 
     private void validateThongTin() {
+        //Kiểm tra thông tin mà người dùng nhập vào
         String fullName = edtFullName.getText().toString();
         String canNang = edtCanNang.getText().toString();
         String doTuoi = edtDoTuoi.getText().toString();

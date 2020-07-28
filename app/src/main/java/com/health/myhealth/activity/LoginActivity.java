@@ -110,6 +110,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         btnLogin.setOnClickListener(this);
     }
 
+    //Kiểm tra thông tin đầu vào, nếu hợp lệ sẽ check tài khoản đăng nhập
     private void validateLogin() {
         String userName = edtUserName.getText().toString();
         String passWord = edtPassWord.getText().toString();
@@ -119,6 +120,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         } else if (passWord.equals("")) {
             edtPassWord.setError("Không được để trống");
         } else if (userName.equals("admin") && passWord.equals("123")) {
+            //Nếu đúng thông tin đăng nhập sẽ vào main quản lý
             isOffScreen = false;
             getData();
             if (dataHealth.equals("")) {
@@ -127,6 +129,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 intentHealth.putExtra("dateCurrent", dateCurrent);
                 startActivity(intentHealth);
             } else {
+                //Kiểm tra nếu đã login thì không login lại nữa
                 SharedPreferences.setDataInt(this, "CHECK_LOGIN", 1);
                 checkDate();
             }
@@ -140,14 +143,16 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         getData();
         userModel = new Gson().fromJson(dataHealth, UserModel.class);
         dateHealthList = userModel.getListDateHealth();
-
+        //Kiểm tra xem ngày hiện tại đã có dữ liệu hay chưa
         for (int i = 0; i <= dateHealthList.size(); i++) {
             if (i < dateHealthList.size()) {
                 if (dateHealthList.get(i).getDate().equals(dateCurrent)) {
+                    // Nếu có rồi sẽ vào main quản lý và lấy ra dữ liệu có sẵn
                     goToHealthMain();
                     return;
                 }
             } else {
+                // Nếu chưa có sẽ khởi tọa dữ liệu cho ngày mới
                 dateHealthList.add(new UserModel.DateHealth(dateCurrent));
                 userModel.getListDateHealth(dateHealthList);
                 SharedPreferences.setDataString(this, "MY_DATA_HEALTH", new Gson().toJson(userModel));

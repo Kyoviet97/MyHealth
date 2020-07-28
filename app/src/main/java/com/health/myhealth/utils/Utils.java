@@ -1,21 +1,9 @@
 package com.health.myhealth.utils;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
-
-import androidx.core.app.NotificationCompat;
-
-import com.health.myhealth.R;
-import com.health.myhealth.activity.LoginActivity;
-
 import java.util.Calendar;
 
 public class Utils {
+    //Lấy thông tin ngày tháng năm hiện tại
     public static String getDateCurrent(){
         Calendar calendar = Calendar.getInstance();
         String DAY = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
@@ -41,6 +29,7 @@ public class Utils {
         }
     }
 
+    //Kiểm tra thời gian ngủ từ 22h đến 6h
     public static boolean checkTimeSleep() {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         if (hour >= 22 || hour <= 6) {
@@ -105,6 +94,7 @@ public class Utils {
         return srtHSleep + "giờ " + srtMSleep + "phút";
     }
 
+    //Công thức tính calo tiêu thụ
     public static double getCalo(double chieuCao, double canNang, int tuoi, boolean isRun){
         double calo = 0;
         int vanToc = 5;

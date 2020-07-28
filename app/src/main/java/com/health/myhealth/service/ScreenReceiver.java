@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 public class ScreenReceiver extends BroadcastReceiver {
-
+    //Dịch vụ này lắng nghe khi nào thiết bị tắt hay mở màn hình để khởi động dịch vụ chạy ngầm
     public static boolean wasScreenOn = true;
 
     @Override

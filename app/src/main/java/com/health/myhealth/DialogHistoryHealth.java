@@ -12,6 +12,7 @@ import com.health.myhealth.model.UserModel;
 import com.health.myhealth.utils.SharedPreferences;
 import com.health.myhealth.utils.Utils;
 
+//Thông tin lịch sử hoạt động theo từ ngày
 public class DialogHistoryHealth extends AppCompatDialog {
     private UserModel.DataHealth dataHealth;
     private Context context;

@@ -21,7 +21,7 @@ import com.health.myhealth.R;
 import com.health.myhealth.utils.SensorManager;
 import com.health.myhealth.utils.SharedPreferences;
 import com.health.myhealth.utils.Utils;
-
+//Dịch vụ chạy ngầm
 public class ServiceCountStep extends android.app.Service implements ListenerEventSensor {
     private SensorManager sensorManager;
     private boolean isFirstRun = false;
@@ -51,9 +51,11 @@ public class ServiceCountStep extends android.app.Service implements ListenerEve
 
     private void init() {
         isFirstRun = true;
+        //Khởi tạo bộ quản lý chuyển động
         sensorManager = new SensorManager(ServiceCountStep.this, this);
     }
 
+    //Thông báo lên thanh statusBar của thiết bị các chỉ số
     private void notication(String step, String sleep) {
         if (Build.VERSION.SDK_INT >= 26) {
             String CHANNEL_ID = "service_my_health";
@@ -82,6 +84,8 @@ public class ServiceCountStep extends android.app.Service implements ListenerEve
     }
 
 
+    //Thông báo các hoạt động khác (Báo người dùng nên vận động nếu nghỉ ngơi quá lâu)
+    //title là tiêu đề của thông bóa, content là nội dung thông báo
     private void showNotication(String title, String content) {
         if (Build.VERSION.SDK_INT >= 26) {
             String CHANNEL_ID = "service_my_health";
@@ -109,6 +113,10 @@ public class ServiceCountStep extends android.app.Service implements ListenerEve
 
     }
 
+    //Hàm này sẽ đếm thời gian tính giờ ngủ. Khởi động khi app bắt đầu chạy ngầm
+    //Điều kiện tính thời gian ngủ: Sau 10 phút không có hoạt động và trong thời gian từ 22h đến 6h
+    //Nếu thỏa mãn điều kiện ngủ thì cứ sau 5 phút sẽ cộng vào thời gian ngủ
+
     private void startCountTime() {
         timeCountNoSenser = 0;
         if (handlerCountTime == null) {
@@ -125,12 +133,15 @@ public class ServiceCountStep extends android.app.Service implements ListenerEve
                     } else {
                         isHandlerCountTimeRun = true;
                         timeCountNoSenser = timeCountNoSenser + 1;
+                        //Nếu không hoạt động trong vòng 10 phút và trong thời gian ngủ sẽ tính là ngủ
                         if (timeCountNoSenser >= TIME_IS_SLEEP && Utils.checkTimeSleep()) {
                             getData();
                         }
+                        //Nếu trong vòng 1h không hoạt động và ngài thời gian ngủ sẽ nhắc người dùng vận động (Thay đổi nội dung nhắc nhở nếu muốn)
                         if ((timeCountNoSenser % 12 == 0) && !Utils.checkTimeSleep()) {
                             showNotication("Bạn đã nghỉ ngơi trong một thời gian dài", "Hãy đứng lên và vận động cơ thể");
                         }
+                        // 300000 mili giây = 5 phút
                         handlerCountTime.postDelayed(this, 300000);
                     }
                 }
@@ -140,6 +151,7 @@ public class ServiceCountStep extends android.app.Service implements ListenerEve
 
 
     private void getData() {
+        //Lấy các dữ liệu mới nhất trong bộ nhớ thiết bị
         String dateCurrent = Utils.getDateCurrent();
         String strData = SharedPreferences.getDataString(this, dateCurrent);
         if (!strData.equals("")) {
@@ -163,6 +175,7 @@ public class ServiceCountStep extends android.app.Service implements ListenerEve
 
     @Override
     public void eventSensor(int step, int run, long sleep, double calo, double quangDuong) {
+        //Lắng nghe các dữ liệu gửi về từ bộ quản lý hoạt động
         if (step % 30 == 0 || isFirstRun) {
             isFirstRun = false;
             String dataHoatDong = "Hoạt động: " + step + " bước (" + Math.round(calo * 100.0) / 100.0 + "kcal, " + Math.round(quangDuong * 100.0) / 100.0 + "km)";

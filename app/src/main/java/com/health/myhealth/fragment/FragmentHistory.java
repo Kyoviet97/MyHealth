@@ -33,6 +33,8 @@ public class FragmentHistory extends Fragment implements OnClickRecyclerView {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dateHealthList = new ArrayList<>();
+        // userModel chứa toàn bộ lịch sử hoạt động của người dùng(tổng số bước chạy, calo tiêu thụ, quãng đường di chuyển, thời gian ngủ)
+        //Lịch sử sẽ được tạo danh sách theo ngày
         UserModel userModel = new Gson().fromJson(SharedPreferences.getDataString(getActivity(), "MY_DATA_HEALTH"), UserModel.class);
         if (userModel != null){
             dateHealthList = userModel.getListDateHealth();

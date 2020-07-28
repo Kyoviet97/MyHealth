@@ -68,6 +68,7 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
 
     @Override
     public void eventSensor(int step, int run, long sleep, double calo, double quangDuong) {
+        //Lắng nghe các dữ liệu mà main quản lý chuyển động trả về
         txtSensor.setText(String.valueOf(step));
         txtStep.setText(String.valueOf((step - run)));
         txtRun.setText( String.valueOf(run));

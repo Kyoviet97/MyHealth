@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 import com.health.myhealth.model.UserModel;
 
 import static android.content.Context.SENSOR_SERVICE;
-
+//TRÁI TIM CỦA APP. BỘ QUẢN LÝ CHUYỂN ĐỘNG
 public class SensorManager implements SensorEventListener, StepListener {
     private Context context;
 
@@ -118,6 +118,7 @@ public class SensorManager implements SensorEventListener, StepListener {
     }
 
     private void tongHopKetQua() {
+        //Tổng hợp các dữ liệu và gửi về các đối tượng đang lắng nghe
         double caloDiBo = (STEP - RUN) * Utils.getCalo(chieuCao, canNang, soTuoi, false);
         double caloChay = RUN * Utils.getCalo(chieuCao, canNang, soTuoi, true);
         double kmDiBo = (STEP - RUN) * 0.00075;

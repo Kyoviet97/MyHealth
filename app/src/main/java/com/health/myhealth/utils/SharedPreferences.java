@@ -2,6 +2,7 @@ package com.health.myhealth.utils;
 
 import android.content.Context;
 
+//Lưu các dữ liệu vào bộ nhớ của máy
 public class SharedPreferences {
     public static void setDataString(Context context, String key, String dataString) {
         android.content.SharedPreferences sharedPref = context.getSharedPreferences("com.health.myhealth", Context.MODE_PRIVATE);

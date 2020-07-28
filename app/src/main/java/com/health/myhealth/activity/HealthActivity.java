@@ -47,6 +47,7 @@ public class HealthActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        //Nếu app dừng lại và màn hình bị tắt sẽ khởi động chạy ngầm
         if (isOffScreen && ScreenReceiver.wasScreenOn){
             startServiceHealth();
         }
@@ -60,6 +61,8 @@ public class HealthActivity extends AppCompatActivity {
     }
 
     private void checkServiceRun() {
+        //Kiểm tra nếu app đang chạy ngầm thì khi mở app sẽ tắt chế độ chạy ngầm
+        //(Nếu không kiểm tra app có chạy ngầm hay không mà tắt chế độ chạy ngầm luôn sẽ bị lỗi app)
         if (isMyServiceRunning(ServiceCountStep.class)){
             stopService(new Intent(this, ServiceCountStep.class));
         }
@@ -72,6 +75,7 @@ public class HealthActivity extends AppCompatActivity {
     }
 
     private void setupViewPager() {
+        //Khởi tạo quản lý fragment và truyền vào 2 fragment cùng tiêu đề ( Có thể thay đổi tiêu đề nếu muốn)
         FragmentManager fragmentManager = getSupportFragmentManager();
         ViewPagerAdapter adapter = new ViewPagerAdapter(fragmentManager);
         adapter.addFragment(new FragmentHealth(), "Hôm nay");
