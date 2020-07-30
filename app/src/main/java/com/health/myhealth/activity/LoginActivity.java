@@ -41,7 +41,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         init();
-        checkTypeLogout();
         getDate();
         setOnClick();
         checkScreenOff();
@@ -63,14 +62,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    private void checkTypeLogout() {
-        Intent getIntent = getIntent();
-        this.isLogout = getIntent.getBooleanExtra("type", false);
-    }
 
     private void checkLogin(){
         int isLogin = SharedPreferences.getDataInt(this, "CHECK_LOGIN");
-        if (isLogin == 1 && !isLogout){
+        if (isLogin == 1){
             getDate();
             checkDate();
         }else {

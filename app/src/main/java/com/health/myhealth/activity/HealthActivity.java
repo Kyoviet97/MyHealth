@@ -21,6 +21,7 @@ import com.health.myhealth.fragment.FragmentHealth;
 import com.health.myhealth.fragment.FragmentHistory;
 import com.health.myhealth.service.ScreenReceiver;
 import com.health.myhealth.service.ServiceCountStep;
+import com.health.myhealth.utils.SharedPreferences;
 
 public class HealthActivity extends AppCompatActivity {
     private TabLayout tabLayout;
@@ -99,7 +100,8 @@ public class HealthActivity extends AppCompatActivity {
 
 
     private void startServiceHealth(){
-        if (!isMyServiceRunning(ServiceCountStep.class)){
+        //Kiểm tra nếu chưa khởi động dịch vụ chạy ẩn và đang giữ trạng thái login thì sẽ bắt đầu chạy ẩn (Nếu logout sẽ hết phiên làm việc và không cộng các dữ liệu như: bước, calo, time ngủ...)
+        if (!isMyServiceRunning(ServiceCountStep.class) && SharedPreferences.getDataInt(this, "CHECK_LOGIN") == 1){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 startForegroundService(new Intent(this, ServiceCountStep.class));
                 return;
@@ -136,8 +138,8 @@ public class HealthActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_logout:
+                SharedPreferences.setDataInt(this, "CHECK_LOGIN", 0);
                 Intent intent = new Intent(this, LoginActivity.class);
-                intent.putExtra("type", true);
                 startActivity(intent);
                 finish();
                 return true;
