@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_dialog_setup"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingLeft="@dimen/_10dp"
+        android:paddingTop="@dimen/_20dp"
+        android:paddingRight="@dimen/_10dp"
+        android:paddingBottom="@dimen/_20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Giả lập thông báo"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_17sp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_count_time_push"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10dp"
+                android:text="Thông báo sẽ hiển thị sau: 10 giây"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_15sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_14dp"
+            android:padding="@dimen/_4dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/btn_start_push_demo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/_14sp"
+                android:layout_marginRight="@dimen/_20dp"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:background="@drawable/bkg_login_button"
+                android:text="Bắt đầu"/>
+
+            <Button
+                android:id="@+id/btn_stop_push_demo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/_14sp"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:background="@drawable/bkg_login_button"
+                android:text="Kết thúc"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

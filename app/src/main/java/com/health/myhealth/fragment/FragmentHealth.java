@@ -2,12 +2,15 @@ package com.health.myhealth.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.health.myhealth.utils.Conts;
 import com.health.myhealth.utils.ListenerEventSensor;
 import com.health.myhealth.R;
 import com.health.myhealth.utils.SensorManager;
@@ -69,11 +72,14 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
     @Override
     public void eventSensor(int step, int run, long sleep, double calo, double quangDuong) {
         //Lắng nghe các dữ liệu mà main quản lý chuyển động trả về
-        txtSensor.setText(String.valueOf(step));
-        txtStep.setText(String.valueOf((step - run)));
-        txtRun.setText( String.valueOf(run));
-        txtSleep.setText(Utils.showTimeSleep2(sleep));
-        txtCalo.setText(String.valueOf(Math.round(calo * 100.0) / 100.0));
-        txtLong.setText(String.valueOf(Math.round(quangDuong * 100.0) / 100.0));
+            Conts.timeCountSleepDemo = 10;
+            Conts.timeCountPushDemo = 10;
+            txtSensor.setText(String.valueOf(step));
+            txtStep.setText(String.valueOf((step - run)));
+            txtRun.setText( String.valueOf(run));
+            txtSleep.setText(Utils.showTimeSleep2(sleep));
+            txtCalo.setText(String.valueOf(Math.round(calo * 100.0) / 100.0));
+            txtLong.setText(String.valueOf(Math.round(quangDuong * 100.0) / 100.0));
     }
+
 }

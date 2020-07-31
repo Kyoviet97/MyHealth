@@ -20,8 +20,9 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Giả lập đếm giờ ngủ"
+            android:textStyle="bold"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/_16sp" />
+            android:textSize="@dimen/_17sp" />
 
 
         <LinearLayout
@@ -37,31 +38,51 @@
                 android:layout_marginTop="@dimen/_10dp"
                 android:text="Giờ ngủ sẽ tính sau: 10 giây"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/_14sp" />
+                android:textSize="@dimen/_15sp" />
 
             <TextView
                 android:id="@+id/txt_total_sleep"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10dp"
-                android:text="Tổng giờ ngủ hiện tại: 00 giờ 14 phút"
+                android:text="Tổng giờ ngủ: loading"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/_14sp" />
+                android:textSize="@dimen/_15sp" />
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_start_sleep_demo"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10dp"
-            android:textSize="@dimen/_14sp"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:paddingRight="@dimen/_20dp"
-            android:paddingLeft="@dimen/_20dp"
-            android:background="@drawable/bkg_login_button"
-            android:text="Bắt đầu"/>
+            android:layout_marginTop="@dimen/_14dp"
+            android:padding="@dimen/_4dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/btn_start_sleep_demo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/_14sp"
+                android:layout_marginRight="@dimen/_20dp"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:background="@drawable/bkg_login_button"
+                android:text="Bắt đầu"/>
+
+            <Button
+                android:id="@+id/btn_stop_sleep_demo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/_14sp"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:background="@drawable/bkg_login_button"
+                android:text="Kết thúc"/>
+
+        </LinearLayout>
 
 
     </LinearLayout>

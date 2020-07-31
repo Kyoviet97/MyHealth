@@ -11,6 +11,7 @@ import com.health.myhealth.model.UserModel;
 import static android.content.Context.SENSOR_SERVICE;
 //TRÁI TIM CỦA APP. BỘ QUẢN LÝ CHUYỂN ĐỘNG
 public class SensorManager implements SensorEventListener, StepListener {
+    private static SensorManager sensorManager;
     private Context context;
 
     private StepDetector simpleStepDetector;

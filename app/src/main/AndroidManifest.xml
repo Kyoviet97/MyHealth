@@ -6,7 +6,7 @@
         android:name="android.hardware.sensor.accelerometer"
         android:required="true" />
 
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
@@ -17,11 +17,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activity.MainCountSleepDemo"></activity>
         <activity
             android:name=".activity.NewMemberAcitivity"
-            android:windowSoftInputMode="adjustResize">
-
-        </activity>
+            android:windowSoftInputMode="adjustResize"></activity>
         <activity android:name=".activity.HealthActivity" />
         <activity
             android:name=".activity.LoginActivity"
@@ -33,33 +32,29 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".service.ServiceCountStep"/>
+        <service android:name=".service.ServiceCountStep" />
 
         <receiver
             android:name=".service.ScreenReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
-                <action android:name="android.intent.action.SCREEN_ON"/>
-                <action android:name="android.intent.action.SCREEN_OFF"/>
+                <action android:name="android.intent.action.SCREEN_ON" />
+                <action android:name="android.intent.action.SCREEN_OFF" />
             </intent-filter>
         </receiver>
-
-
         <receiver
+            android:name=".service.ServiceRunOnStartup"
             android:enabled="true"
             android:exported="true"
-            android:name=".service.ServiceRunOnStartup"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
-
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
         </receiver>
-
     </application>
 
 </manifest>

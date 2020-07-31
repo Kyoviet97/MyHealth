@@ -116,7 +116,7 @@ public class Utils {
         }
 
 
-        return srtHSleep + "giờ " + srtMSleep + "phút " + srtSSleep + "giây";
+        return srtHSleep + ":" + srtMSleep + ":" + srtSSleep;
     }
 
     //Công thức tính calo tiêu thụ
