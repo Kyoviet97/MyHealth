@@ -2,9 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/menu_ngu"
+        android:title="Demo giờ ngủ">
+    </item>
+
+    <item
+        android:id="@+id/menu_nhac_nho"
+        android:title="Demo nhắc nhở">
+    </item>
+
+    <item
         android:id="@+id/menu_logout"
         android:title="Đăng xuất">
-
     </item>
 
 </menu>

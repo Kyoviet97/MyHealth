@@ -1,4 +1,4 @@
-package com.health.myhealth;
+package com.health.myhealth.dialog;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatDialog;
 
 import com.google.gson.Gson;
+import com.health.myhealth.R;
 import com.health.myhealth.model.UserModel;
 import com.health.myhealth.utils.SharedPreferences;
 import com.health.myhealth.utils.Utils;

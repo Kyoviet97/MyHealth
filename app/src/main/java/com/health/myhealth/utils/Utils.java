@@ -94,6 +94,31 @@ public class Utils {
         return srtHSleep + "giờ " + srtMSleep + "phút";
     }
 
+    public static String showTimeSleep4(long sleep) {
+        long HSleep = (sleep / 60 / 60) % 60;
+        long MSleep = (sleep / 60) % 60;
+        long SSleep = sleep % 60;
+
+        String srtHSleep = String.valueOf(HSleep);
+        String srtMSleep = String.valueOf(MSleep);
+        String srtSSleep = String.valueOf(SSleep);
+
+        if (srtHSleep.length() == 1) {
+            srtHSleep = "0" + srtHSleep;
+        }
+
+        if (srtMSleep.length() == 1) {
+            srtMSleep = "0" + srtMSleep;
+        }
+
+        if (srtSSleep.length() == 1) {
+            srtSSleep = "0" + srtSSleep;
+        }
+
+
+        return srtHSleep + "giờ " + srtMSleep + "phút " + srtSSleep + "giây";
+    }
+
     //Công thức tính calo tiêu thụ
     public static double getCalo(double chieuCao, double canNang, int tuoi, boolean isRun){
         double calo = 0;

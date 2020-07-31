@@ -6,6 +6,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -88,11 +90,11 @@ public class ServiceCountStep extends android.app.Service implements ListenerEve
     //title là tiêu đề của thông bóa, content là nội dung thông báo
     private void showNotication(String title, String content) {
         if (Build.VERSION.SDK_INT >= 26) {
-            String CHANNEL_ID = "service_my_health";
+            String CHANNEL_ID = "service_my_health_notify";
 
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
-                    "Count Step",
-                    NotificationManager.IMPORTANCE_NONE);
+                    "notify",
+                    NotificationManager.IMPORTANCE_HIGH);
 
             PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                     new Intent(this, LoginActivity.class), 0);
@@ -100,12 +102,14 @@ public class ServiceCountStep extends android.app.Service implements ListenerEve
 
             ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
 
+            Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_favorite)  // the status icon
                     .setWhen(System.currentTimeMillis())  // the time stamp
                     .setContentTitle(title)  // the label of the entry
                     .setContentText(content)  // the contents of the entry
                     .setContentIntent(contentIntent)  // The intent to send when the entry is clicked
+                    .setSound(alarmSound)
                     .build();
 
             startForeground(2, notification);
@@ -133,6 +137,7 @@ public class ServiceCountStep extends android.app.Service implements ListenerEve
                     } else {
                         isHandlerCountTimeRun = true;
                         timeCountNoSenser = timeCountNoSenser + 1;
+                        System.out.println("=======================>>> time: " + timeCountNoSenser);
                         //Nếu không hoạt động trong vòng 10 phút và trong thời gian ngủ sẽ tính là ngủ
                         if (timeCountNoSenser >= TIME_IS_SLEEP && Utils.checkTimeSleep()) {
                             getData();

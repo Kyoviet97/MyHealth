@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
-import com.health.myhealth.DialogHistoryHealth;
+import com.health.myhealth.dialog.DialogHistoryHealth;
 import com.health.myhealth.R;
 import com.health.myhealth.utils.OnClickRecyclerView;
 import com.health.myhealth.utils.SharedPreferences;

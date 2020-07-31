@@ -17,6 +17,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.health.myhealth.R;
 import com.health.myhealth.adapter.ViewPagerAdapter;
+import com.health.myhealth.dialog.DialogSetup;
 import com.health.myhealth.fragment.FragmentHealth;
 import com.health.myhealth.fragment.FragmentHistory;
 import com.health.myhealth.service.ScreenReceiver;
@@ -141,6 +142,14 @@ public class HealthActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
                 return true;
+
+            case R.id.menu_ngu:
+                DialogSetup dialogNgu = new DialogSetup(this);
+                dialogNgu.show();
+
+            case R.id.menu_nhac_nho:
+                DialogSetup dialogNhacNho = new DialogSetup(this);
+                dialogNhacNho.show();
             default:
                 return super.onOptionsItemSelected(item);
         }

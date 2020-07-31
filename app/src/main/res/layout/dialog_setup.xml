@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_dialog_setup"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingLeft="@dimen/_10dp"
+        android:paddingTop="@dimen/_20dp"
+        android:paddingRight="@dimen/_10dp"
+        android:paddingBottom="@dimen/_20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Giả lập đếm giờ ngủ"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_16sp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_count_time_sleep"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10dp"
+                android:text="Giờ ngủ sẽ tính sau: 10 giây"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_14sp" />
+
+            <TextView
+                android:id="@+id/txt_total_sleep"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10dp"
+                android:text="Tổng giờ ngủ hiện tại: 00 giờ 14 phút"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_14sp" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_start_sleep_demo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10dp"
+            android:textSize="@dimen/_14sp"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:paddingRight="@dimen/_20dp"
+            android:paddingLeft="@dimen/_20dp"
+            android:background="@drawable/bkg_login_button"
+            android:text="Bắt đầu"/>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
