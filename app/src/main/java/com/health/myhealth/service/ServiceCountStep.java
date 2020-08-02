@@ -118,8 +118,7 @@ public class ServiceCountStep extends android.app.Service implements ListenerEve
     }
 
     //Hàm này sẽ đếm thời gian tính giờ ngủ. Khởi động khi app bắt đầu chạy ngầm
-    //Điều kiện tính thời gian ngủ: Sau 10 phút không có hoạt động và trong thời gian từ 22h đến 6h
-    //Nếu thỏa mãn điều kiện ngủ thì cứ sau 5 phút sẽ cộng vào thời gian ngủ
+    //Điều kiện tính thời gian ngủ: trong phần cài đặt thòi gian ngủ
 
     private void startCountTime() {
         timeCountNoSenser = 0;
@@ -143,8 +142,8 @@ public class ServiceCountStep extends android.app.Service implements ListenerEve
                     } else {
                         isHandlerCountTimeRun = true;
                         timeCountNoSenser = timeCountNoSenser + 1;
-                        //Nếu không hoạt động trong vòng 10 phút và trong thời gian ngủ sẽ tính là ngủ
-                        if (timeCountNoSenser == dkSleep && Utils.checkTimeSleep(getApplicationContext())) {
+                        //Cài đặt thòi gian ngủ trong phần menu cài đặt thời gian ngủ
+                        if (timeCountNoSenser == (dkSleep + 1) && Utils.checkTimeSleep(getApplicationContext())) {
                             Utils.pushNotify(getApplicationContext(), "Thông báo", contentSleep);
                             getData();
                         }
