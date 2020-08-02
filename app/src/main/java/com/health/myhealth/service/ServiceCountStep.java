@@ -131,8 +131,6 @@ public class ServiceCountStep extends android.app.Service implements ListenerEve
                 public void run() {
                     int dkSleep = SharedPreferences.getDataInt(getApplicationContext(), "DK_TIME_SLEEP");
                     int dkVanDong = SharedPreferences.getDataInt(getApplicationContext(), "DK_TIME_VD");
-                    String contentSleep = SharedPreferences.getDataString(getApplicationContext(), "CONTENT_SLEEP");
-
                     String titleVanDong = SharedPreferences.getDataString(getApplicationContext(), "TITLE_VD");
                     String contentVanDong = SharedPreferences.getDataString(getApplicationContext(), "CONTENT_VD");
                     if (stopHandlerCountTime) {
@@ -144,7 +142,6 @@ public class ServiceCountStep extends android.app.Service implements ListenerEve
                         timeCountNoSenser = timeCountNoSenser + 1;
                         //Cài đặt thòi gian ngủ trong phần menu cài đặt thời gian ngủ
                         if (timeCountNoSenser == (dkSleep + 1) && Utils.checkTimeSleep(getApplicationContext())) {
-                            Utils.pushNotify(getApplicationContext(), "Thông báo", contentSleep);
                             getData();
                         }
                         //Nhắc nhở người dùng vận động

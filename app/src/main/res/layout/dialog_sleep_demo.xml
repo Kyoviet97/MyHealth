@@ -115,23 +115,23 @@
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_8dp"
-            android:text="Nội dung thông báo đến giờ ngủ"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/_12sp"/>
-        <EditText
-            android:id="@+id/edt_content_notify"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/_14sp"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:scrollHorizontally="true"
-            android:hint="Nội dung nhắc nhở đến giờ đi ngủ..."/>
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="@dimen/_8dp"-->
+<!--            android:text="Nội dung thông báo đến giờ ngủ"-->
+<!--            android:textColor="@android:color/black"-->
+<!--            android:textSize="@dimen/_12sp"/>-->
+<!--        <EditText-->
+<!--            android:id="@+id/edt_content_notify"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textColor="@android:color/black"-->
+<!--            android:textSize="@dimen/_14sp"-->
+<!--            android:maxLines="1"-->
+<!--            android:singleLine="true"-->
+<!--            android:scrollHorizontally="true"-->
+<!--            android:hint="Nội dung nhắc nhở đến giờ đi ngủ..."/>-->
 
         <LinearLayout
             android:layout_width="match_parent"
