@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Giả lập thông báo"
+            android:text="Thông báo vận động"
             android:textStyle="bold"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_17sp" />
@@ -29,14 +29,77 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="left"
+            android:layout_marginTop="@dimen/_10dp"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txt_count_time_push"
+                android:id="@+id/txt_time_van_dong"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_16sp"
+                android:textColor="@android:color/black"
+                android:text="Nhắc sau khi nghỉ ngơi: 120 phút"/>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10dp"
-                android:text="Thông báo sẽ hiển thị sau: 10 giây"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thời gian: "
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/_14sp"/>
+
+                <SeekBar
+                    android:id="@+id/seekbar_van_dong"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:min="1"
+                    android:max="120"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10dp"
+                android:textSize="@dimen/_12sp"
+                android:textColor="@android:color/black"
+                android:text="Tiêu đề thông báo"/>
+
+            <EditText
+                android:id="@+id/edt_title_noty_vd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:scrollHorizontally="true"
+                android:hint="Tiêu đề của thông báo..."
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_15sp" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10dp"
+                android:textSize="@dimen/_12sp"
+                android:textColor="@android:color/black"
+                android:text="Nội dung thông báo"/>
+
+
+            <EditText
+                android:id="@+id/edt_content_noty_vd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:scrollHorizontally="true"
+                android:hint="Nội dung thông báo..."
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_15sp" />
 
@@ -51,7 +114,7 @@
             android:weightSum="2">
 
             <Button
-                android:id="@+id/btn_start_push_demo"
+                android:id="@+id/btn_cancel_push_demo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -60,10 +123,10 @@
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
                 android:background="@drawable/bkg_login_button"
-                android:text="Bắt đầu"/>
+                android:text="Hủy bỏ"/>
 
             <Button
-                android:id="@+id/btn_stop_push_demo"
+                android:id="@+id/btn_apply_push_demo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -71,7 +134,7 @@
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
                 android:background="@drawable/bkg_login_button"
-                android:text="Kết thúc"/>
+                android:text="Đồng ý"/>
 
         </LinearLayout>
 

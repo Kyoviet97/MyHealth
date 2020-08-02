@@ -34,7 +34,7 @@
            <EditText
                android:id="@+id/edt_full_name"
                android:layout_width="match_parent"
-               android:layout_height="@dimen/_40dp"
+               android:layout_height="@dimen/_45dp"
                android:layout_marginTop="@dimen/_14dp"
                android:background="@drawable/bkg_edt_login"
                android:hint="Tên của bạn..."
@@ -48,7 +48,7 @@
            <EditText
                android:id="@+id/edt_tuoi"
                android:layout_width="match_parent"
-               android:layout_height="@dimen/_40dp"
+               android:layout_height="@dimen/_45dp"
                android:layout_marginTop="@dimen/_14dp"
                android:background="@drawable/bkg_edt_login"
                android:hint="Số tuổi của bạn..."
@@ -63,7 +63,7 @@
            <EditText
                android:id="@+id/edt_chieu_cao"
                android:layout_width="match_parent"
-               android:layout_height="@dimen/_40dp"
+               android:layout_height="@dimen/_45dp"
                android:layout_marginTop="@dimen/_10dp"
                android:background="@drawable/bkg_edt_login"
                android:hint="Số chiều cao theo (cm)..."
@@ -78,7 +78,7 @@
            <EditText
                android:id="@+id/edt_can_nang"
                android:layout_width="match_parent"
-               android:layout_height="@dimen/_40dp"
+               android:layout_height="@dimen/_45dp"
                android:layout_marginTop="@dimen/_10dp"
                android:background="@drawable/bkg_edt_login"
                android:hint="Số cân nặng theo (kg)..."

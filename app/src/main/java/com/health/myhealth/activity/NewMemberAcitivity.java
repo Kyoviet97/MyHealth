@@ -78,6 +78,14 @@ public class NewMemberAcitivity extends Activity implements View.OnClickListener
 
             SharedPreferences.setDataString(this, "MY_DATA_HEALTH", new Gson().toJson(userModel));
             SharedPreferences.setDataInt(this, "CHECK_LOGIN", 1);
+            SharedPreferences.setDataInt(this, "START_H_SLEEP", 22);
+            SharedPreferences.setDataInt(this, "STOP_H_SLEEP", 6);
+            SharedPreferences.setDataInt(this, "DK_TIME_SLEEP", 10);
+            SharedPreferences.setDataString(this, "CONTENT_SLEEP", "Đã đến giờ đi ngủ");
+
+            SharedPreferences.setDataInt(this, "DK_TIME_VD", 60);
+            SharedPreferences.setDataString(this, "TITLE_VD", "Thông báo");
+            SharedPreferences.setDataString(this, "CONTENT_VD", "Hãy đứng dạy và vận động cơ thể");
             startActivity(new Intent(this, HealthActivity.class));
             finish();
         }

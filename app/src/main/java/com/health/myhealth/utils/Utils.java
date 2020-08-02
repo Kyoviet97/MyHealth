@@ -1,5 +1,7 @@
 package com.health.myhealth.utils;
 
+import android.content.Context;
+
 import java.util.Calendar;
 
 public class Utils {
@@ -30,9 +32,12 @@ public class Utils {
     }
 
     //Kiểm tra thời gian ngủ từ 22h đến 6h
-    public static boolean checkTimeSleep() {
+    public static boolean checkTimeSleep(Context context) {
+        int start = SharedPreferences.getDataInt(context, "START_H_SLEEP");
+        int stop = SharedPreferences.getDataInt(context, "STOP_H_SLEEP");
+        System.out.println("====================>>>>> " + start + "   " + stop);
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        if (hour >= 22 || hour <= 6) {
+        if (hour >= start || hour <= stop) {
             return true;
         } else {
             return false;
@@ -117,6 +122,11 @@ public class Utils {
 
 
         return srtHSleep + ":" + srtMSleep + ":" + srtSSleep;
+    }
+
+    public static void pushNotify(Context context, String title, String content){
+        NotificationHelper notificationHelper = new NotificationHelper(context);
+        notificationHelper.createNotification(title, content);
     }
 
     //Công thức tính calo tiêu thụ

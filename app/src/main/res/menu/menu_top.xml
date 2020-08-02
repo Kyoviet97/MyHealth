@@ -3,12 +3,12 @@
 
     <item
         android:id="@+id/menu_ngu"
-        android:title="Demo giờ ngủ">
+        android:title="Cài đặt giờ ngủ">
     </item>
 
     <item
         android:id="@+id/menu_nhac_nho"
-        android:title="Demo nhắc nhở">
+        android:title="Cài đặt nhắc nhở">
     </item>
 
     <item

@@ -29,7 +29,7 @@
        <EditText
            android:id="@+id/edt_user_name"
            android:layout_width="match_parent"
-           android:layout_height="@dimen/_40dp"
+           android:layout_height="@dimen/_45dp"
            android:layout_marginTop="@dimen/_14dp"
            android:background="@drawable/bkg_edt_login"
            android:hint="Tên đăng nhập..."
@@ -43,7 +43,7 @@
        <EditText
            android:id="@+id/edt_password"
            android:layout_width="match_parent"
-           android:layout_height="@dimen/_40dp"
+           android:layout_height="@dimen/_45dp"
            android:layout_marginTop="@dimen/_10dp"
            android:background="@drawable/bkg_edt_login"
            android:hint="Mật khẩu..."

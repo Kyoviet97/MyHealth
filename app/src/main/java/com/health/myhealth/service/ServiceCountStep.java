@@ -130,6 +130,12 @@ public class ServiceCountStep extends android.app.Service implements ListenerEve
             handlerCountTime.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    int dkSleep = SharedPreferences.getDataInt(getApplicationContext(), "DK_TIME_SLEEP");
+                    int dkVanDong = SharedPreferences.getDataInt(getApplicationContext(), "DK_TIME_VD");
+                    String contentSleep = SharedPreferences.getDataString(getApplicationContext(), "CONTENT_SLEEP");
+
+                    String titleVanDong = SharedPreferences.getDataString(getApplicationContext(), "TITLE_VD");
+                    String contentVanDong = SharedPreferences.getDataString(getApplicationContext(), "CONTENT_VD");
                     if (stopHandlerCountTime) {
                         handlerCountTime.removeCallbacks(this);
                         stopHandlerCountTime = false;
@@ -137,17 +143,18 @@ public class ServiceCountStep extends android.app.Service implements ListenerEve
                     } else {
                         isHandlerCountTimeRun = true;
                         timeCountNoSenser = timeCountNoSenser + 1;
-                        System.out.println("=======================>>> time: " + timeCountNoSenser);
                         //Nếu không hoạt động trong vòng 10 phút và trong thời gian ngủ sẽ tính là ngủ
-                        if (timeCountNoSenser >= TIME_IS_SLEEP && Utils.checkTimeSleep()) {
+                        if (timeCountNoSenser == dkSleep && Utils.checkTimeSleep(getApplicationContext())) {
+                            Utils.pushNotify(getApplicationContext(), "Thông báo", contentSleep);
                             getData();
                         }
-                        //Nếu trong vòng 1h không hoạt động và ngài thời gian ngủ sẽ nhắc người dùng vận động (Thay đổi nội dung nhắc nhở nếu muốn)
-                        if ((timeCountNoSenser % 12 == 0) && !Utils.checkTimeSleep()) {
-                            showNotication("Bạn đã nghỉ ngơi trong một thời gian dài", "Hãy đứng lên và vận động cơ thể");
+                        //Nhắc nhở người dùng vận động
+                        if ((timeCountNoSenser % dkVanDong == 0) && timeCountNoSenser != 1 && !Utils.checkTimeSleep(getApplicationContext())) {
+                            Utils.pushNotify(getApplicationContext(), titleVanDong, contentVanDong);
                         }
                         // 300000 mili giây = 5 phút
-                        handlerCountTime.postDelayed(this, 300000);
+                        handlerCountTime.postDelayed(this, 60000);
+//                        handlerCountTime.postDelayed(this, 300000);
                     }
                 }
             }, 0);
@@ -161,7 +168,7 @@ public class ServiceCountStep extends android.app.Service implements ListenerEve
         String strData = SharedPreferences.getDataString(this, dateCurrent);
         if (!strData.equals("")) {
             UserModel.DataHealth dataHealth = new Gson().fromJson(strData, UserModel.DataHealth.class);
-            UserModel.DataHealth dataHealthUpdate = new UserModel.DataHealth(dataHealth.getStep(), dataHealth.getBike(), (dataHealth.getSleep() + 300));
+            UserModel.DataHealth dataHealthUpdate = new UserModel.DataHealth(dataHealth.getStep(), dataHealth.getBike(), (dataHealth.getSleep() + 60));
             SharedPreferences.setDataString(this, dateCurrent, new Gson().toJson(dataHealthUpdate));
         } else {
             isFirstRun = true;

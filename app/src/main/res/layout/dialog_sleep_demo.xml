@@ -19,68 +19,150 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Giả lập đếm giờ ngủ"
+            android:text="Cài đặt thời gian ngủ"
             android:textStyle="bold"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_17sp" />
+
+        <TextView
+            android:id="@+id/txt_time_sleep"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10dp"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_14sp"
+            android:text="Bắt đầu từ: 00h \nKết thúc vào lúc: 00h"/>
+
+        <TextView
+            android:id="@+id/txt_time_nghi_ngoi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_14sp"
+            android:text="Bắt đầu sau x phút không hoạt động" />
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left"
-            android:orientation="vertical">
+            android:layout_marginTop="@dimen/_8dp"
+            android:orientation="horizontal"
+            android:gravity="left|center">
 
             <TextView
-                android:id="@+id/txt_count_time_sleep"
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/_80dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10dp"
-                android:text="Giờ ngủ sẽ tính sau: 10 giây"
+                android:textSize="@dimen/_14sp"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/_15sp" />
+                android:text="Bắt đầu"/>
 
-            <TextView
-                android:id="@+id/txt_total_sleep"
+            <SeekBar
+                android:id="@+id/seekbar_start_sleep"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10dp"
-                android:text="Tổng giờ ngủ: loading"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/_15sp" />
+                android:max="23"
+                android:min="0"
+                android:layout_marginLeft="@dimen/_4dp"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_14dp"
-            android:padding="@dimen/_4dp"
+            android:layout_marginTop="@dimen/_8dp"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:gravity="left|center">
 
-            <Button
-                android:id="@+id/btn_start_sleep_demo"
-                android:layout_width="0dp"
+            <TextView
+                android:layout_width="@dimen/_80dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:textSize="@dimen/_14sp"
-                android:layout_marginRight="@dimen/_20dp"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:background="@drawable/bkg_login_button"
-                android:text="Bắt đầu"/>
-
-            <Button
-                android:id="@+id/btn_stop_sleep_demo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/_14sp"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:background="@drawable/bkg_login_button"
+                android:textColor="@android:color/black"
                 android:text="Kết thúc"/>
+
+            <SeekBar
+                android:id="@+id/seekbar_stop_sleep"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="23"
+                android:min="0"
+                android:layout_marginLeft="@dimen/_4dp"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8dp"
+            android:orientation="horizontal"
+            android:gravity="left|center">
+
+            <TextView
+                android:layout_width="@dimen/_80dp"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_14sp"
+                android:textColor="@android:color/black"
+                android:text="Nghỉ ngơi"/>
+
+            <SeekBar
+                android:id="@+id/seekbar_nghi_ngoi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_4dp"
+                android:max="20"
+                android:min="1" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8dp"
+            android:text="Nội dung thông báo đến giờ ngủ"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_12sp"/>
+        <EditText
+            android:id="@+id/edt_content_notify"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_14sp"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:scrollHorizontally="true"
+            android:hint="Nội dung nhắc nhở đến giờ đi ngủ..."/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:padding="@dimen/_10dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_cancel_seting"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_14sp"
+                android:textAllCaps="false"
+                android:layout_marginRight="@dimen/_20dp"
+                android:textColor="@android:color/white"
+                android:background="@drawable/bkg_login_button"
+                android:text="Hủy bỏ"/>
+
+
+            <Button
+                android:id="@+id/btn_apply_setting_dialog"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_14sp"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:background="@drawable/bkg_login_button"
+                android:text="Áp dụng"/>
 
         </LinearLayout>
 

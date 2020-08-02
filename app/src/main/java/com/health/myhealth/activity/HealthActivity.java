@@ -7,9 +7,11 @@ import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -17,8 +19,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.health.myhealth.R;
 import com.health.myhealth.adapter.ViewPagerAdapter;
-import com.health.myhealth.dialog.DialogDemoPush;
-import com.health.myhealth.dialog.DialogDemoSleep;
+import com.health.myhealth.dialog.DialogSettingPush;
+import com.health.myhealth.dialog.DialogSettingSleep;
 import com.health.myhealth.fragment.FragmentHealth;
 import com.health.myhealth.fragment.FragmentHistory;
 import com.health.myhealth.service.ScreenReceiver;
@@ -30,6 +32,7 @@ public class HealthActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private BroadcastReceiver mReceiver = null;
     private boolean isOffScreen = true;
+    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,8 +117,22 @@ public class HealthActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        isOffScreen = false;
-       finish();
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            isOffScreen = false;
+            finish();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Click back thêm 1 lần để đóng app", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 
     @Override
@@ -147,12 +164,12 @@ public class HealthActivity extends AppCompatActivity {
                 return true;
 
             case R.id.menu_ngu:
-                DialogDemoSleep dialogNgu = new DialogDemoSleep(this);
+                DialogSettingSleep dialogNgu = new DialogSettingSleep(this);
                 dialogNgu.show();
                 return true;
 
             case R.id.menu_nhac_nho:
-                DialogDemoPush dialogNhacNho = new DialogDemoPush(this);
+                DialogSettingPush dialogNhacNho = new DialogSettingPush(this);
                 dialogNhacNho.show();
                 return true;
             default:
