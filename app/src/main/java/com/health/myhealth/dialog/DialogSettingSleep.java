@@ -25,7 +25,7 @@ public class DialogSettingSleep extends AppCompatDialog implements View.OnClickL
     private SeekBar seekBarStart;
     private SeekBar seekBarStop;
     private SeekBar seekBarDkSleep;
-    private EditText edtContent;
+//    private EditText edtContent;
 
     public DialogSettingSleep(Context context) {
         super(context, R.style.Theme_dialog_setup);
@@ -49,7 +49,7 @@ public class DialogSettingSleep extends AppCompatDialog implements View.OnClickL
         seekBarDkSleep = findViewById(R.id.seekbar_nghi_ngoi);
         btnApplyDialog = findViewById(R.id.btn_apply_setting_dialog);
         btnCancelDialog = findViewById(R.id.btn_cancel_seting);
-        edtContent = findViewById(R.id.edt_content_notify);
+//        edtContent = findViewById(R.id.edt_content_notify);
         btnApplyDialog.setOnClickListener(this);
         btnCancelDialog.setOnClickListener(this);
 
@@ -64,7 +64,7 @@ public class DialogSettingSleep extends AppCompatDialog implements View.OnClickL
         seekBarStart.setProgress(startSleep);
         seekBarStop.setProgress(stopSleep);
         seekBarDkSleep.setProgress(dkTimeSleep);
-        edtContent.setText(conttentSleep);
+//        edtContent.setText(conttentSleep);
         setTimeToTextView();
     }
 
@@ -138,14 +138,9 @@ public class DialogSettingSleep extends AppCompatDialog implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_apply_setting_dialog:
-                if (edtContent.getText().toString().equals("")){
-                    edtContent.setError("Vui lòng điền nội dung thông báo");
-                    return;
-                }
                 SharedPreferences.setDataInt(getContext(), "START_H_SLEEP", startSleep);
                 SharedPreferences.setDataInt(getContext(), "STOP_H_SLEEP", stopSleep);
                 SharedPreferences.setDataInt(getContext(), "DK_TIME_SLEEP", dkTimeSleep);
-                SharedPreferences.setDataString(getContext(), "CONTENT_SLEEP", edtContent.getText().toString());
                 onDismiss();
                 break;
 
