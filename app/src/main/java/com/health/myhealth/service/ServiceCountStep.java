@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -20,6 +21,7 @@ import com.health.myhealth.model.UserModel;
 import com.health.myhealth.utils.ListenerEventSensor;
 import com.health.myhealth.activity.LoginActivity;
 import com.health.myhealth.R;
+import com.health.myhealth.utils.NotificationHelper;
 import com.health.myhealth.utils.SensorManager;
 import com.health.myhealth.utils.SharedPreferences;
 import com.health.myhealth.utils.Utils;
@@ -27,12 +29,11 @@ import com.health.myhealth.utils.Utils;
 public class ServiceCountStep extends android.app.Service implements ListenerEventSensor {
     private SensorManager sensorManager;
     private boolean isFirstRun = false;
-
     private int timeCountNoSenser = 0;
-    private static final int TIME_IS_SLEEP = 3;
     private Handler handlerCountTime;
     private boolean stopHandlerCountTime = false;
     private boolean isHandlerCountTimeRun = false;
+    private NotificationHelper notificationHelper;
 
     @Nullable
     @Override
@@ -54,6 +55,7 @@ public class ServiceCountStep extends android.app.Service implements ListenerEve
     private void init() {
         isFirstRun = true;
         //Khởi tạo bộ quản lý chuyển động
+        notificationHelper = new NotificationHelper(this);
         sensorManager = new SensorManager(ServiceCountStep.this, this);
     }
 
@@ -81,38 +83,8 @@ public class ServiceCountStep extends android.app.Service implements ListenerEve
                     .build();
 
             startForeground(2, notification);
-        }
-
-    }
-
-
-    //Thông báo các hoạt động khác (Báo người dùng nên vận động nếu nghỉ ngơi quá lâu)
-    //title là tiêu đề của thông bóa, content là nội dung thông báo
-    private void showNotication(String title, String content) {
-        if (Build.VERSION.SDK_INT >= 26) {
-            String CHANNEL_ID = "service_my_health_notify";
-
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
-                    "notify",
-                    NotificationManager.IMPORTANCE_HIGH);
-
-            PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                    new Intent(this, LoginActivity.class), 0);
-
-
-            ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
-
-            Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                    .setSmallIcon(R.drawable.ic_favorite)  // the status icon
-                    .setWhen(System.currentTimeMillis())  // the time stamp
-                    .setContentTitle(title)  // the label of the entry
-                    .setContentText(content)  // the contents of the entry
-                    .setContentIntent(contentIntent)  // The intent to send when the entry is clicked
-                    .setSound(alarmSound)
-                    .build();
-
-            startForeground(2, notification);
+        }else {
+            notificationHelper.createNotificationSleep(step, sleep);
         }
 
     }
@@ -141,14 +113,13 @@ public class ServiceCountStep extends android.app.Service implements ListenerEve
                         isHandlerCountTimeRun = true;
                         timeCountNoSenser = timeCountNoSenser + 1;
                         //Cài đặt thòi gian ngủ trong phần menu cài đặt thời gian ngủ
-                        if (timeCountNoSenser == (dkSleep + 1) && Utils.checkTimeSleep(getApplicationContext())) {
+                        if (timeCountNoSenser >= (dkSleep + 1) && Utils.checkTimeSleep(getApplicationContext())) {
                             getData();
                         }
                         //Nhắc nhở người dùng vận động
                         if ((timeCountNoSenser % dkVanDong == 0) && timeCountNoSenser != 1 && !Utils.checkTimeSleep(getApplicationContext())) {
-                            Utils.pushNotify(getApplicationContext(), titleVanDong, contentVanDong);
+                            notificationHelper.createNotification(titleVanDong, contentVanDong);
                         }
-                        // 300000 mili giây = 5 phút
                         handlerCountTime.postDelayed(this, 60000);
 //                        handlerCountTime.postDelayed(this, 300000);
                     }

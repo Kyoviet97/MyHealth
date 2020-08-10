@@ -31,7 +31,7 @@ public class DialogSettingPush extends AppCompatDialog implements View.OnClickLi
         setContentView(R.layout.dialog_push);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         int width = (int) (context.getResources().getDisplayMetrics().widthPixels * 0.88);
-        int height = (int) (context.getResources().getDisplayMetrics().heightPixels * 0.5);
+        int height = (int) (context.getResources().getDisplayMetrics().heightPixels * 1.0);
         getWindow().setLayout(width, height);
         setCancelable(false);
         init();
@@ -68,6 +68,12 @@ public class DialogSettingPush extends AppCompatDialog implements View.OnClickLi
         seekBarTimeVd.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                if (i == 0){
+                    seekBarTimeVd.setProgress(1);
+                    timeDkVD = 1;
+                    setTimeToTextView();
+                    return;
+                }
                 timeDkVD = i;
                 setTimeToTextView();
             }

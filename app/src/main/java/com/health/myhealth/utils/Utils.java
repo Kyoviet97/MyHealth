@@ -31,17 +31,25 @@ public class Utils {
         }
     }
 
-    //Kiểm tra thời gian ngủ từ 22h đến 6h
+
     public static boolean checkTimeSleep(Context context) {
         int start = SharedPreferences.getDataInt(context, "START_H_SLEEP");
         int stop = SharedPreferences.getDataInt(context, "STOP_H_SLEEP");
-        System.out.println("====================>>>>> " + start + "   " + stop);
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        if (hour >= start || hour <= stop) {
-            return true;
-        } else {
-            return false;
+
+        boolean dkSleep = false;
+
+        if (start > stop){
+            if (hour >= start || hour < stop) {
+                dkSleep = true;
+            }
+        }else {
+            if (hour >= start && hour < stop){
+                dkSleep = true;
+            }
         }
+
+        return dkSleep;
 
     }
 
@@ -124,10 +132,11 @@ public class Utils {
         return srtHSleep + ":" + srtMSleep + ":" + srtSSleep;
     }
 
-    public static void pushNotify(Context context, String title, String content){
-        NotificationHelper notificationHelper = new NotificationHelper(context);
-        notificationHelper.createNotification(title, content);
-    }
+//    public static void pushNotify(Context context, String title, String content){
+//        NotificationHelper notificationHelper = new NotificationHelper(context);
+//        notificationHelper.createNotification(title, content);
+//    }
+
 
     //Công thức tính calo tiêu thụ
     public static double getCalo(double chieuCao, double canNang, int tuoi, boolean isRun){

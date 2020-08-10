@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatDialog;
 import com.health.myhealth.R;
@@ -32,7 +33,7 @@ public class DialogSettingSleep extends AppCompatDialog implements View.OnClickL
         setContentView(R.layout.dialog_sleep_demo);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         int width = (int) (context.getResources().getDisplayMetrics().widthPixels * 0.88);
-        int height = (int) (context.getResources().getDisplayMetrics().heightPixels * 0.7);
+        int height = (int) (context.getResources().getDisplayMetrics().heightPixels * 1.0);
         getWindow().setLayout(width, height);
         setCancelable(false);
         init();
@@ -108,6 +109,13 @@ public class DialogSettingSleep extends AppCompatDialog implements View.OnClickL
         seekBarDkSleep.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                if (i == 0){
+                    dkTimeSleep = 1;
+                    txtTimeNghiNgoi.setText("Bắt đầu sau " + dkTimeSleep +" phút không hoạt động");
+                    seekBarDkSleep.setProgress(1);
+                    return;
+
+                }
                 dkTimeSleep = i;
                 txtTimeNghiNgoi.setText("Bắt đầu sau " + i +" phút không hoạt động");
             }
@@ -138,10 +146,14 @@ public class DialogSettingSleep extends AppCompatDialog implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_apply_setting_dialog:
-                SharedPreferences.setDataInt(getContext(), "START_H_SLEEP", startSleep);
-                SharedPreferences.setDataInt(getContext(), "STOP_H_SLEEP", stopSleep);
-                SharedPreferences.setDataInt(getContext(), "DK_TIME_SLEEP", dkTimeSleep);
-                onDismiss();
+                if (startSleep != stopSleep){
+                    SharedPreferences.setDataInt(getContext(), "START_H_SLEEP", startSleep);
+                    SharedPreferences.setDataInt(getContext(), "STOP_H_SLEEP", stopSleep);
+                    SharedPreferences.setDataInt(getContext(), "DK_TIME_SLEEP", dkTimeSleep);
+                    onDismiss();
+                }else {
+                    Toast.makeText(getContext(), "Vui lòng chọn giờ khác nhau!", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             case R.id.btn_cancel_seting:

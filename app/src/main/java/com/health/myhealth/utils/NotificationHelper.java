@@ -23,7 +23,6 @@ public class NotificationHelper {
     public NotificationHelper(Context context) {
         mContext = context;
     }
-
     /**
      * Create and push the notification
      */
@@ -57,6 +56,28 @@ public class NotificationHelper {
             mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
             mNotificationManager.createNotificationChannel(notificationChannel);
         }
+        assert mNotificationManager != null;
+        mNotificationManager.notify(0 /* Request Code */, mBuilder.build());
+    }
+
+
+    public void createNotificationSleep(String title, String message) {
+        /**Creates an explicit intent for an Activity in your app**/
+        Intent resultIntent = new Intent(mContext, LoginActivity.class);
+        resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(mContext,
+                0 /* Request code */, resultIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        mBuilder = new NotificationCompat.Builder(mContext);
+        mBuilder.setSmallIcon(R.drawable.ic_favorite);
+        mBuilder.setContentTitle(title)
+                .setContentText(message)
+                .setAutoCancel(false)
+                .setContentIntent(resultPendingIntent);
+
+        mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         assert mNotificationManager != null;
         mNotificationManager.notify(0 /* Request Code */, mBuilder.build());
     }

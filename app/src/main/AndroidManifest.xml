@@ -32,7 +32,9 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".service.ServiceCountStep" />
+        <service
+            android:enabled="true"
+            android:name=".service.ServiceCountStep" />
 
         <receiver
             android:name=".service.ScreenReceiver"
