@@ -25,6 +25,7 @@ import com.health.myhealth.fragment.FragmentHealth;
 import com.health.myhealth.fragment.FragmentHistory;
 import com.health.myhealth.service.ScreenReceiver;
 import com.health.myhealth.service.ServiceCountStep;
+import com.health.myhealth.utils.AlarmManager;
 import com.health.myhealth.utils.SharedPreferences;
 
 public class HealthActivity extends AppCompatActivity {
@@ -47,6 +48,7 @@ public class HealthActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         checkServiceRun();
+        AlarmManager.stopAlarm();
         isOffScreen = true;
     }
 

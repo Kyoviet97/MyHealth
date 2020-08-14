@@ -6,18 +6,16 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import com.google.gson.Gson;
 import com.health.myhealth.model.UserModel;
+import com.health.myhealth.utils.AlarmManager;
 import com.health.myhealth.utils.ListenerEventSensor;
 import com.health.myhealth.activity.LoginActivity;
 import com.health.myhealth.R;
@@ -45,6 +43,7 @@ public class ServiceCountStep extends android.app.Service implements ListenerEve
     public void onCreate() {
         super.onCreate();
         init();
+        AlarmManager.setUp(getApplicationContext(), 5);
     }
 
     @Override
@@ -121,7 +120,6 @@ public class ServiceCountStep extends android.app.Service implements ListenerEve
                             notificationHelper.createNotification(titleVanDong, contentVanDong);
                         }
                         handlerCountTime.postDelayed(this, 60000);
-//                        handlerCountTime.postDelayed(this, 300000);
                     }
                 }
             }, 0);
