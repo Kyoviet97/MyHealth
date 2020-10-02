@@ -11,7 +11,7 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout_health"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?actionBarSize"
         app:tabIndicatorColor="@android:color/transparent">
     </com.google.android.material.tabs.TabLayout>
 
@@ -24,7 +24,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/view_page"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
 
-    
 </LinearLayout>

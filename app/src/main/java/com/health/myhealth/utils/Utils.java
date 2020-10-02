@@ -100,6 +100,11 @@ public class Utils {
         return srtHSleep + ":" + srtMSleep;
     }
 
+    public static String showTimeSleepMinute(long sleep) {
+        Long minute = (sleep / 60);
+        return minute.toString();
+    }
+
     public static String showTimeSleep3(long sleep) {
         long HSleep = (sleep / 60 / 60) % 60;
         long MSleep = (sleep / 60) % 60;

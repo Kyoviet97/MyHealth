@@ -1,4 +1,5 @@
 package com.health.myhealth.activity;
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,6 +12,9 @@ import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,8 +35,10 @@ import com.health.myhealth.utils.SharedPreferences;
 public class HealthActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private LinearLayout mainTestTool;
     private BroadcastReceiver mReceiver = null;
     private boolean isOffScreen = true;
+    private boolean isShowTestTool = false;
     boolean doubleBackToExitPressedOnce = false;
 
     @Override
@@ -128,7 +134,6 @@ public class HealthActivity extends AppCompatActivity {
 
         this.doubleBackToExitPressedOnce = true;
         Toast.makeText(this, "Click back thêm 1 lần để đóng app", Toast.LENGTH_SHORT).show();
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -147,6 +152,7 @@ public class HealthActivity extends AppCompatActivity {
 
         startServiceHealth();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -174,10 +180,10 @@ public class HealthActivity extends AppCompatActivity {
                 DialogSettingPush dialogNhacNho = new DialogSettingPush(this);
                 dialogNhacNho.show();
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
 }

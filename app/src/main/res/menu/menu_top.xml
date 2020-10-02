@@ -12,6 +12,11 @@
     </item>
 
     <item
+        android:id="@+id/menu_test"
+        android:title="Chế độ test ">
+    </item>
+
+    <item
         android:id="@+id/menu_logout"
         android:title="Đăng xuất">
     </item>

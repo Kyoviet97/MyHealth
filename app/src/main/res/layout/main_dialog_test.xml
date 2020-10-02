@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/_10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_16dp"
+            android:orientation="vertical"
+            android:background="@android:color/white">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tùy chọn test"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_20sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:layout_marginTop="@dimen/_10dp"
+                android:paddingLeft="@dimen/_16dp"
+                android:paddingRight="@dimen/_16dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/test_steep"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_test_button"
+                    android:layout_marginRight="@dimen/_14dp"
+                    android:textColor="@android:color/white"
+                    android:text="Đi bộ"
+                    android:textSize="@dimen/_14sp"
+                    android:textAllCaps="false"
+                    android:layout_height="wrap_content"/>
+
+                <Button
+                    android:id="@+id/test_run"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_test_button"
+                    android:textColor="@android:color/white"
+                    android:text="Chạy bộ"
+                    android:textSize="@dimen/_14sp"
+                    android:textAllCaps="false"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:layout_marginTop="@dimen/_10dp"
+                android:layout_marginBottom="@dimen/_8dp"
+                android:paddingLeft="@dimen/_16dp"
+                android:paddingRight="@dimen/_16dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/test_bike"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_test_button"
+                    android:layout_marginRight="@dimen/_14dp"
+                    android:textColor="@android:color/white"
+                    android:text="Xe đạp"
+                    android:textSize="@dimen/_14sp"
+                    android:textAllCaps="false"
+                    android:layout_height="wrap_content"/>
+
+                <Button
+                    android:id="@+id/test_sleep"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_test_button"
+                    android:textColor="@android:color/white"
+                    android:text="Nghỉ ngơi"
+                    android:textSize="@dimen/_14sp"
+                    android:textAllCaps="false"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
