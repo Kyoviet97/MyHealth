@@ -34,6 +34,7 @@ public class DialogTestTool extends AppCompatDialog implements View.OnClickListe
         findViewById(R.id.test_bike).setOnClickListener(this);
         findViewById(R.id.test_run).setOnClickListener(this);
         findViewById(R.id.test_sleep).setOnClickListener(this);
+        findViewById(R.id.test_notifi).setOnClickListener(this);
 
     }
 
@@ -58,6 +59,11 @@ public class DialogTestTool extends AppCompatDialog implements View.OnClickListe
 
             case R.id.test_sleep:
                 onClickItemDialog.onClickItem(3);
+                dismiss();
+                break;
+
+            case R.id.test_notifi:
+                onClickItemDialog.onClickItem(4);
                 dismiss();
                 break;
         }

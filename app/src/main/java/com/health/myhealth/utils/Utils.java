@@ -101,8 +101,9 @@ public class Utils {
     }
 
     public static String showTimeSleepMinute(long sleep) {
-        Long minute = (sleep / 60);
-        return minute.toString();
+        double minute = (sleep / 60D);
+        String newValue = String.valueOf(Math.round(minute * 100.0) / 100.0);
+        return newValue;
     }
 
     public static String showTimeSleep3(long sleep) {
