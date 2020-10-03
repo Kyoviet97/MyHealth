@@ -109,6 +109,20 @@
                 android:textAllCaps="false"
                 android:layout_height="wrap_content"/>
 
+            <Button
+                android:id="@+id/test_sleep_notifi"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_marginTop="@dimen/_10dp"
+                android:background="@drawable/background_test_button"
+                android:textColor="@android:color/white"
+                android:text="Thông báo giờ ngủ"
+                android:layout_marginLeft="@dimen/_10dp"
+                android:layout_marginRight="@dimen/_10dp"
+                android:textSize="@dimen/_14sp"
+                android:textAllCaps="false"
+                android:layout_height="wrap_content"/>
+
         </LinearLayout>
 
 

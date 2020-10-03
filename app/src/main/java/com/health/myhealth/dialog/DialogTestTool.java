@@ -14,7 +14,6 @@ import com.health.myhealth.model.UserModel;
 import com.health.myhealth.utils.SharedPreferences;
 import com.health.myhealth.utils.Utils;
 
-//Thông tin lịch sử hoạt động theo từ ngày
 public class DialogTestTool extends AppCompatDialog implements View.OnClickListener{
     public OnClickItemDialog onClickItemDialog;
     public DialogTestTool(Context context, OnClickItemDialog onClickItemDialog) {
@@ -22,7 +21,7 @@ public class DialogTestTool extends AppCompatDialog implements View.OnClickListe
         setContentView(R.layout.main_dialog_test);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         int width = (int) (context.getResources().getDisplayMetrics().widthPixels * 0.85);
-        int height = (int) (context.getResources().getDisplayMetrics().heightPixels * 0.6);
+        int height = (int) (context.getResources().getDisplayMetrics().heightPixels * 1.0);
         getWindow().setLayout(width, height);
         setCancelable(true);
         this.onClickItemDialog = onClickItemDialog;
@@ -35,6 +34,7 @@ public class DialogTestTool extends AppCompatDialog implements View.OnClickListe
         findViewById(R.id.test_run).setOnClickListener(this);
         findViewById(R.id.test_sleep).setOnClickListener(this);
         findViewById(R.id.test_notifi).setOnClickListener(this);
+        findViewById(R.id.test_sleep_notifi).setOnClickListener(this);
 
     }
 
@@ -66,6 +66,12 @@ public class DialogTestTool extends AppCompatDialog implements View.OnClickListe
                 onClickItemDialog.onClickItem(4);
                 dismiss();
                 break;
+
+            case R.id.test_sleep_notifi:
+                onClickItemDialog.onClickItem(5);
+                dismiss();
+                break;
+
         }
     }
 

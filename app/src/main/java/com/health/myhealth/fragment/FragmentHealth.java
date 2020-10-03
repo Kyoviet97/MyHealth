@@ -18,6 +18,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.google.gson.Gson;
+import com.health.myhealth.dialog.DialogSetTime;
 import com.health.myhealth.dialog.DialogTestTool;
 import com.health.myhealth.model.UserModel;
 import com.health.myhealth.utils.Conts;
@@ -56,6 +57,8 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
 
     private Handler handlerTest;
     private Boolean isStopHandler;
+    private Boolean isStopHandlerSleep;
+    private Boolean isSleepTest;
     private int timeShow = 0;
 
     @Nullable
@@ -102,6 +105,8 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
             @Override
             public void onClick(View view) {
                 isStopHandler = true;
+                isStopHandlerSleep = true;
+                isSleepTest = false;
                 stopTest.setVisibility(View.INVISIBLE);
                 isChecking = false;
             }
@@ -218,18 +223,18 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
         }
     }
 
-    private void showNotifi(){
+    private void showNotifi() {
         isStopHandler = false;
         timeShow = 0;
         handlerTest.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (isStopHandler){
+                if (isStopHandler) {
                     handlerTest.removeCallbacks(this);
-                }else {
+                } else {
                     timeShow = timeShow + 1;
                     stopTest.setText(String.valueOf((15 - timeShow)));
-                    if (timeShow >= 15){
+                    if (timeShow >= 15) {
                         isStopHandler = true;
                         stopTest.setVisibility(View.INVISIBLE);
                         isChecking = false;
@@ -243,6 +248,58 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
                 }
             }
         }, 1000);
+    }
+
+
+    private void showNotifiSleep(final int time, final int timeStart) {
+        isStopHandlerSleep = false;
+        timeShow = 0;
+        handlerTest.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (isStopHandlerSleep) {
+                    handlerTest.removeCallbacks(this);
+                } else {
+                    timeShow = timeShow + 1;
+                    stopTest.setText(String.valueOf((time - timeShow)));
+                    if (timeShow >= time) {
+                        isStopHandlerSleep = true;
+                        String title = "Đến giờ ngủ";
+                        String content = "Hãy đi ngủ đúng giờ";
+                        NotificationHelper noti = new NotificationHelper(getActivity());
+                        noti.createNotification(title, content);
+                        stopTest.setText("Stop");
+                        Toast.makeText(getContext(), "Bắt đầu đếm thời gian ngủ sau: " + timeStart + "s", Toast.LENGTH_LONG).show();
+                        startSleepTest(timeStart * 1000);
+                    }
+                    handlerTest.postDelayed(this, 1000);
+                }
+            }
+        }, 1000);
+    }
+
+    private void startSleepTest(int time){
+        isSleepTest = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (isSleepTest){
+                    startTest(3);
+                }
+            }
+        }, time);
+    }
+
+
+    private void showDialogTimeSleep() {
+        DialogSetTime dialogSetTime = new DialogSetTime(getActivity(), new DialogSetTime.OnClickItemDialog() {
+            @Override
+            public void onClickItem(int time, int timeStart) {
+                stopTest.setVisibility(View.VISIBLE);
+                showNotifiSleep(time, timeStart);
+            }
+        });
+        dialogSetTime.show();
     }
 
     @Override
@@ -285,13 +342,16 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
                         @Override
                         public void onClickItem(int idItem) {
                             isChecking = true;
-                            if (idItem != 4){
+                            if (idItem == 4) {
+                                showNotifi();
+                                stopTest.setVisibility(View.VISIBLE);
+                            } else if (idItem == 5) {
+                                showDialogTimeSleep();
+                            } else {
                                 stopTest.setText("Stop");
                                 startTest(idItem);
-                            }else if(idItem == 4){
-                                showNotifi();
+                                stopTest.setVisibility(View.VISIBLE);
                             }
-                            stopTest.setVisibility(View.VISIBLE);
                         }
                     });
                     dialogTestTool.show();
@@ -300,6 +360,7 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     interface DataHealth {
         void dataHealth(int STEP, Long SLEEP, int RUN);
