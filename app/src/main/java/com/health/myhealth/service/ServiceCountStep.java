@@ -133,11 +133,11 @@ public class ServiceCountStep extends android.app.Service implements ListenerEve
         String strData = SharedPreferences.getDataString(this, dateCurrent);
         if (!strData.equals("")) {
             UserModel.DataHealth dataHealth = new Gson().fromJson(strData, UserModel.DataHealth.class);
-            UserModel.DataHealth dataHealthUpdate = new UserModel.DataHealth(dataHealth.getStep(), dataHealth.getBike(), (dataHealth.getSleep() + 60));
+            UserModel.DataHealth dataHealthUpdate = new UserModel.DataHealth(dataHealth.getStep(), dataHealth.getRun(), dataHealth.getBike(), (dataHealth.getSleep() + 60));
             SharedPreferences.setDataString(this, dateCurrent, new Gson().toJson(dataHealthUpdate));
         } else {
             isFirstRun = true;
-            UserModel.DataHealth newData = new UserModel.DataHealth(0, 0, 0);
+            UserModel.DataHealth newData = new UserModel.DataHealth(0, 0, 0, 0);
             SharedPreferences.setDataString(this, dateCurrent, new Gson().toJson(newData));
             getData();
         }
@@ -151,7 +151,7 @@ public class ServiceCountStep extends android.app.Service implements ListenerEve
     }
 
     @Override
-    public void eventSensor(int step, int run, long sleep, double calo, double quangDuong) {
+    public void eventSensor(int step, int run, long bike, long sleep, double calo, double quangDuong) {
         //Lắng nghe các dữ liệu gửi về từ bộ quản lý hoạt động
         if (step % 30 == 0 || isFirstRun) {
             isFirstRun = false;

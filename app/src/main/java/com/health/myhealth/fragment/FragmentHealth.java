@@ -2,9 +2,7 @@ package com.health.myhealth.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +12,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.google.gson.Gson;
 import com.health.myhealth.dialog.DialogSetTime;
 import com.health.myhealth.dialog.DialogTestTool;
 import com.health.myhealth.model.UserModel;
-import com.health.myhealth.utils.Conts;
 import com.health.myhealth.utils.ListenerEventSensor;
 import com.health.myhealth.R;
 import com.health.myhealth.utils.NotificationHelper;
@@ -42,6 +38,7 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
     private TextView txtSleep;
     private TextView txtCalo;
     private TextView txtLong;
+    private TextView txtBike;
 
     private Button stopTest;
 
@@ -52,13 +49,15 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
     private Float chieuCao;
 
     private int STEP;
-    private Long SLEEP;
     private int RUN;
+    private Long BIKE;
+    private Long SLEEP;
 
     private Handler handlerTest;
     private Boolean isStopHandler;
     private Boolean isStopHandlerSleep;
     private Boolean isSleepTest;
+    private Boolean isStopBikeTest;
     private int timeShow = 0;
 
     @Nullable
@@ -88,11 +87,13 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
         txtSleep = rootView.findViewById(R.id.txt_sleep);
         txtCalo = rootView.findViewById(R.id.txt_calo);
         txtLong = rootView.findViewById(R.id.txt_long);
+        txtBike = rootView.findViewById(R.id.txt_bike);
 
         stopTest = rootView.findViewById(R.id.btn_stop_test);
         stopTest.setVisibility(View.INVISIBLE);
 
         isStopHandler = false;
+        isStopBikeTest = false;
         handlerTest = new Handler();
         gson = new Gson();
         eventStopTest();
@@ -106,6 +107,7 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
             public void onClick(View view) {
                 isStopHandler = true;
                 isStopHandlerSleep = true;
+                isStopBikeTest = true;
                 isSleepTest = false;
                 stopTest.setVisibility(View.INVISIBLE);
                 isChecking = false;
@@ -126,7 +128,7 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
                 break;
 
             case 2:
-                timeTest = 500;
+                timeTest = 1000;
                 break;
 
             case 3:
@@ -155,8 +157,9 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
             @Override
             public void dataHealth(final int STEP, final Long SLEEP, final int RUN) {
                 int newStep = STEP;
-                Long newSleep = SLEEP;
                 int newRun = RUN;
+                Long newBike = BIKE;
+                Long newSleep = SLEEP;
                 if (idTest == 0) {
                     newStep = newStep + 1;
                 }
@@ -167,8 +170,7 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
                 }
 
                 if (idTest == 2) {
-                    newRun = newRun + 1;
-                    newStep = newStep + 1;
+                    newBike = newBike + 1;
                 }
 
                 if (idTest == 3) {
@@ -186,11 +188,12 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
                 txtSensor.setText(String.valueOf(newStep));
                 txtStep.setText(String.valueOf((newStep - newRun)));
                 txtRun.setText(String.valueOf(newRun));
+                txtBike.setText((Utils.showTimeSleepMinute(newBike)));
                 txtSleep.setText(Utils.showTimeSleepMinute(newSleep));
                 txtCalo.setText(String.valueOf(Math.round(calo * 100.0) / 100.0));
                 txtLong.setText(String.valueOf(Math.round(quangDuong * 100.0) / 100.0));
 
-                SharedPreferences.setDataString(getContext(), dateCurrent, gson.toJson(new UserModel.DataHealth(newStep, newRun, newSleep)));
+                SharedPreferences.setDataString(getContext(), dateCurrent, gson.toJson(new UserModel.DataHealth(newStep, newRun, newBike, newSleep)));
             }
         });
 
@@ -212,12 +215,13 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
             dataHealth = gson.fromJson(strData, UserModel.DataHealth.class);
             if (dataHealth != null) {
                 STEP = dataHealth.getStep();
+                RUN = dataHealth.getRun();
+                BIKE =dataHealth.getBike();
                 SLEEP = dataHealth.getSleep();
-                RUN = dataHealth.getBike();
                 dataReturn.dataHealth(STEP, SLEEP, RUN);
             }
         } else {
-            UserModel.DataHealth newData = new UserModel.DataHealth(0, 0, 0);
+            UserModel.DataHealth newData = new UserModel.DataHealth(0, 0, 0,0);
             SharedPreferences.setDataString(getActivity(), dateCurrent, new Gson().toJson(newData));
             getData(dataReturn);
         }
@@ -290,6 +294,23 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
         }, time);
     }
 
+//    private void startBikeTest(){
+//        isStopBikeTest = false;
+//        timeShow = 0;
+//        handlerTest.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (isStopBikeTest){
+//                    handlerTest.removeCallbacks(this);
+//                }else {
+//                    startTest(2);
+//                    timeShow++;
+//                    stopTest.setText(timeShow + "s");
+//                    handlerTest.postDelayed(this, 1000);
+//                }
+//            }
+//        }, 0);
+//    }
 
     private void showDialogTimeSleep() {
         DialogSetTime dialogSetTime = new DialogSetTime(getActivity(), new DialogSetTime.OnClickItemDialog() {
@@ -321,12 +342,13 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
     }
 
     @Override
-    public void eventSensor(int step, int run, long sleep, double calo, double quangDuong) {
+    public void eventSensor(int step, int run, long bike, long sleep, double calo, double quangDuong) {
         //Lắng nghe các dữ liệu mà main quản lý chuyển động trả về
         txtSensor.setText(String.valueOf(step));
         txtStep.setText(String.valueOf((step - run)));
         txtRun.setText(String.valueOf(run));
         txtSleep.setText(Utils.showTimeSleepMinute(sleep));
+        txtBike.setText(Utils.showTimeSleepMinute(bike));
         txtCalo.setText(String.valueOf(Math.round(calo * 100.0) / 100.0));
         txtLong.setText(String.valueOf(Math.round(quangDuong * 100.0) / 100.0));
     }
@@ -342,7 +364,7 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
                         @Override
                         public void onClickItem(int idItem) {
                             isChecking = true;
-                            if (idItem == 4) {
+                           if (idItem == 4) {
                                 showNotifi();
                                 stopTest.setVisibility(View.VISIBLE);
                             } else if (idItem == 5) {

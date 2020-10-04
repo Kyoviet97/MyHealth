@@ -136,10 +136,10 @@
                 android:layout_width="@dimen/_50dp"
                 android:layout_height="@dimen/_50dp"
                 android:adjustViewBounds="true"
-                android:src="@drawable/ic_room_black_24dp"/>
+                android:src="@drawable/ic_baseline_directions_bike_24"/>
 
             <TextView
-                android:id="@+id/txt_long"
+                android:id="@+id/txt_bike"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_20sp"
@@ -157,7 +157,7 @@
                 android:textStyle="bold"
                 android:textColor="#9FAECF"
                 android:gravity="center"
-                android:text="km"/>
+                android:text="phút"/>
 
 
         </LinearLayout>
@@ -169,9 +169,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="2"
-        android:paddingLeft="@dimen/_40dp"
-        android:paddingRight="@dimen/_40dp"
+        android:weightSum="3"
         android:layout_marginTop="@dimen/_6dp"
         android:orientation="horizontal">
 
@@ -242,6 +240,43 @@
                 android:gravity="center"
                 android:layout_marginTop="-5dp"
                 android:text="phút"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="@dimen/_50dp"
+                android:layout_height="@dimen/_50dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_room_black_24dp"/>
+
+            <TextView
+                android:id="@+id/txt_long"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_20sp"
+                android:textStyle="bold"
+                android:textColor="#363D50"
+                android:gravity="center"
+                android:text="0"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_14sp"
+                android:layout_marginTop="-5dp"
+                android:textStyle="bold"
+                android:textColor="#9FAECF"
+                android:gravity="center"
+                android:text="km"/>
+
 
         </LinearLayout>
 

@@ -69,7 +69,7 @@ public class DialogHistoryHealth extends AppCompatDialog {
 
         STEP = dataHealth.getStep();
         SLEEP = dataHealth.getSleep();
-        RUN = dataHealth.getBike();
+        RUN = dataHealth.getRun();
 
         double caloDiBo = (STEP - RUN) * Utils.getCalo(chieuCao, canNang, soTuoi, false);
         double caloChay = RUN * Utils.getCalo(chieuCao, canNang, soTuoi, true);

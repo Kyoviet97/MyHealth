@@ -27,11 +27,13 @@ public class UserModel {
 
     public static class DataHealth{
         private int step;
-        private int bike;
+        private int run;
+        private long bike;
         private long sleep;
 
-        public DataHealth(int step, int bike, long sleep) {
+        public DataHealth(int step, int run, long bike, long sleep) {
             this.step = step;
+            this.run = run;
             this.bike = bike;
             this.sleep = sleep;
         }
@@ -44,11 +46,19 @@ public class UserModel {
             this.step = step;
         }
 
-        public int getBike() {
+        public int getRun() {
+            return run;
+        }
+
+        public void setRun(int step) {
+            this.run = step;
+        }
+
+        public long getBike() {
             return bike;
         }
 
-        public void setBike(int bike) {
+        public void setBike(long bike) {
             this.bike = bike;
         }
 
