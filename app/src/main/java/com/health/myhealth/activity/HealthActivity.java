@@ -9,6 +9,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Telephony;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,15 +31,14 @@ import com.health.myhealth.fragment.FragmentHistory;
 import com.health.myhealth.service.ScreenReceiver;
 import com.health.myhealth.service.ServiceCountStep;
 import com.health.myhealth.utils.AlarmManager;
+import com.health.myhealth.utils.Conts;
 import com.health.myhealth.utils.SharedPreferences;
 
 public class HealthActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private LinearLayout mainTestTool;
     private BroadcastReceiver mReceiver = null;
     private boolean isOffScreen = true;
-    private boolean isShowTestTool = false;
     boolean doubleBackToExitPressedOnce = false;
 
     @Override
@@ -56,6 +56,7 @@ public class HealthActivity extends AppCompatActivity {
         checkServiceRun();
         AlarmManager.stopAlarm();
         isOffScreen = true;
+        Conts.isBike = false;
     }
 
     @Override
@@ -180,6 +181,9 @@ public class HealthActivity extends AppCompatActivity {
                 DialogSettingPush dialogNhacNho = new DialogSettingPush(this);
                 dialogNhacNho.show();
                 return true;
+
+            case R.id.menu_bike:
+                startActivity(new Intent(this, StartBikeActivity.class));
 
             default:
                 return super.onOptionsItemSelected(item);

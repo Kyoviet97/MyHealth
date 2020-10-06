@@ -27,11 +27,39 @@
                android:text="20/06/2020"
                android:textStyle="bold" />
 
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="@dimen/_10dp"
+               android:layout_marginBottom="@dimen/_4dp"
+               android:orientation="horizontal">
+
+               <TextView
+                   android:id="@+id/txt_run_step_history"
+                   android:layout_width="0dp"
+                   android:layout_weight="1"
+                   android:layout_height="wrap_content"
+                   android:gravity="center"
+                   android:drawableTop="@drawable/ic_directions_run_black_24dp"
+                   android:textSize="@dimen/_16sp"
+                   android:textColor="#363D50"/>
+
+               <TextView
+                   android:id="@+id/txt_time_bike_history"
+                   android:layout_width="0dp"
+                   android:layout_weight="1"
+                   android:layout_height="wrap_content"
+                   android:gravity="center"
+                   android:drawableTop="@drawable/ic_baseline_directions_bike_24"
+                   android:textSize="@dimen/_16sp"
+                   android:textColor="#363D50"/>
+
+           </LinearLayout>
+
           <LinearLayout
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:weightSum="2"
-              android:layout_marginTop="@dimen/_10dp"
               android:orientation="horizontal">
 
               <LinearLayout

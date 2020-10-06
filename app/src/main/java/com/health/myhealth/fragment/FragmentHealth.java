@@ -1,5 +1,6 @@
 package com.health.myhealth.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.gson.Gson;
+import com.health.myhealth.activity.StartBikeActivity;
 import com.health.myhealth.dialog.DialogSetTime;
 import com.health.myhealth.dialog.DialogTestTool;
 import com.health.myhealth.model.UserModel;
@@ -50,8 +52,11 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
 
     private int STEP;
     private int RUN;
-    private Long BIKE;
     private Long SLEEP;
+
+    private Long BIKETIME;
+    private double BIKECALO;
+    private double BIKEKM;
 
     private Handler handlerTest;
     private Boolean isStopHandler;
@@ -127,10 +132,6 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
                 timeTest = 600;
                 break;
 
-            case 2:
-                timeTest = 1000;
-                break;
-
             case 3:
                 timeTest = 1000;
                 break;
@@ -155,11 +156,15 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
     private void updateDataToLocal(final int idTest) {
         getData(new DataHealth() {
             @Override
-            public void dataHealth(final int STEP, final Long SLEEP, final int RUN) {
+            public void dataHealth(int STEP, Long SLEEP, int RUN, Long BIKETIME, Double BIKECALO, Double BIKEKM) {
                 int newStep = STEP;
                 int newRun = RUN;
-                Long newBike = BIKE;
                 Long newSleep = SLEEP;
+
+                Long newBike = BIKETIME;
+                double caloBike = BIKECALO;
+                double kmBike = BIKEKM;
+
                 if (idTest == 0) {
                     newStep = newStep + 1;
                 }
@@ -167,10 +172,6 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
                 if (idTest == 1) {
                     newRun = newRun + 1;
                     newStep = newStep + 1;
-                }
-
-                if (idTest == 2) {
-                    newBike = newBike + 1;
                 }
 
                 if (idTest == 3) {
@@ -182,8 +183,8 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
                 double kmDiBo = (newStep - newRun) * 0.00075;
                 double kmChay = newRun * 0.00085;
 
-                double calo = (caloDiBo + caloChay);
-                double quangDuong = (kmChay + kmDiBo);
+                double calo = (caloDiBo + caloChay + caloBike);
+                double quangDuong = (kmChay + kmDiBo + kmBike);
 
                 txtSensor.setText(String.valueOf(newStep));
                 txtStep.setText(String.valueOf((newStep - newRun)));
@@ -193,7 +194,8 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
                 txtCalo.setText(String.valueOf(Math.round(calo * 100.0) / 100.0));
                 txtLong.setText(String.valueOf(Math.round(quangDuong * 100.0) / 100.0));
 
-                SharedPreferences.setDataString(getContext(), dateCurrent, gson.toJson(new UserModel.DataHealth(newStep, newRun, newBike, newSleep)));
+                SharedPreferences.setDataString(getContext(), dateCurrent, gson.toJson(new UserModel.DataHealth(newStep, newRun, newSleep, newBike, caloBike, kmBike)));
+
             }
         });
 
@@ -216,12 +218,16 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
             if (dataHealth != null) {
                 STEP = dataHealth.getStep();
                 RUN = dataHealth.getRun();
-                BIKE =dataHealth.getBike();
                 SLEEP = dataHealth.getSleep();
-                dataReturn.dataHealth(STEP, SLEEP, RUN);
+
+                BIKETIME = dataHealth.getTimeBike();
+                BIKECALO = dataHealth.getCaloBike();
+                BIKEKM = dataHealth.getKmBike();
+
+                dataReturn.dataHealth(STEP, SLEEP, RUN, BIKETIME, BIKECALO, BIKEKM);
             }
         } else {
-            UserModel.DataHealth newData = new UserModel.DataHealth(0, 0, 0,0);
+            UserModel.DataHealth newData = new UserModel.DataHealth(0, 0, 0, 0, 0.0, 0.0);
             SharedPreferences.setDataString(getActivity(), dateCurrent, new Gson().toJson(newData));
             getData(dataReturn);
         }
@@ -294,24 +300,6 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
         }, time);
     }
 
-//    private void startBikeTest(){
-//        isStopBikeTest = false;
-//        timeShow = 0;
-//        handlerTest.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (isStopBikeTest){
-//                    handlerTest.removeCallbacks(this);
-//                }else {
-//                    startTest(2);
-//                    timeShow++;
-//                    stopTest.setText(timeShow + "s");
-//                    handlerTest.postDelayed(this, 1000);
-//                }
-//            }
-//        }, 0);
-//    }
-
     private void showDialogTimeSleep() {
         DialogSetTime dialogSetTime = new DialogSetTime(getActivity(), new DialogSetTime.OnClickItemDialog() {
             @Override
@@ -341,17 +329,7 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
         sensorManager.unregisterListener();
     }
 
-    @Override
-    public void eventSensor(int step, int run, long bike, long sleep, double calo, double quangDuong) {
-        //Lắng nghe các dữ liệu mà main quản lý chuyển động trả về
-        txtSensor.setText(String.valueOf(step));
-        txtStep.setText(String.valueOf((step - run)));
-        txtRun.setText(String.valueOf(run));
-        txtSleep.setText(Utils.showTimeSleepMinute(sleep));
-        txtBike.setText(Utils.showTimeSleepMinute(bike));
-        txtCalo.setText(String.valueOf(Math.round(calo * 100.0) / 100.0));
-        txtLong.setText(String.valueOf(Math.round(quangDuong * 100.0) / 100.0));
-    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -369,7 +347,11 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
                                 stopTest.setVisibility(View.VISIBLE);
                             } else if (idItem == 5) {
                                 showDialogTimeSleep();
-                            } else {
+                            } else if (idItem == 2){
+                               Intent intentBike = new Intent(getActivity(), StartBikeActivity.class);
+                               intentBike.putExtra("TEST", true);
+                               startActivityForResult(intentBike, 100);
+                           }else {
                                 stopTest.setText("Stop");
                                 startTest(idItem);
                                 stopTest.setVisibility(View.VISIBLE);
@@ -383,10 +365,19 @@ public class FragmentHealth extends Fragment implements ListenerEventSensor {
         return super.onOptionsItemSelected(item);
     }
 
-
-    interface DataHealth {
-        void dataHealth(int STEP, Long SLEEP, int RUN);
+    @Override
+    public void eventSensor(int step, int run, long sleep, double calo, double quangDuong, long bikeTime) {
+        txtSensor.setText(String.valueOf(step));
+        txtStep.setText(String.valueOf((step - run)));
+        txtRun.setText(String.valueOf(run));
+        txtBike.setText(Utils.showTimeSleepMinute(bikeTime));
+        txtSleep.setText(Utils.showTimeSleepMinute(sleep));
+        txtCalo.setText(String.valueOf(Math.round(calo * 100.0) / 100.0));
+        txtLong.setText(String.valueOf(Math.round(quangDuong * 100.0) / 100.0));
     }
 
+    interface DataHealth {
+        void dataHealth(int STEP, Long SLEEP, int RUN, Long BIKETIME, Double BIKECALO, Double BIKEKM);
+    }
 }
 

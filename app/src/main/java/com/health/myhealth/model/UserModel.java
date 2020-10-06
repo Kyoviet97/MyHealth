@@ -28,14 +28,18 @@ public class UserModel {
     public static class DataHealth{
         private int step;
         private int run;
-        private long bike;
         private long sleep;
+        private long timeBike;
+        private Double caloBike;
+        private Double kmBike;
 
-        public DataHealth(int step, int run, long bike, long sleep) {
+        public DataHealth(int step, int run, long sleep, long timeBike, Double caloBike, Double kmBike) {
             this.step = step;
             this.run = run;
-            this.bike = bike;
             this.sleep = sleep;
+            this.timeBike = timeBike;
+            this.caloBike = caloBike;
+            this.kmBike = kmBike;
         }
 
         public int getStep() {
@@ -50,16 +54,8 @@ public class UserModel {
             return run;
         }
 
-        public void setRun(int step) {
-            this.run = step;
-        }
-
-        public long getBike() {
-            return bike;
-        }
-
-        public void setBike(long bike) {
-            this.bike = bike;
+        public void setRun(int run) {
+            this.run = run;
         }
 
         public long getSleep() {
@@ -68,6 +64,30 @@ public class UserModel {
 
         public void setSleep(long sleep) {
             this.sleep = sleep;
+        }
+
+        public long getTimeBike() {
+            return timeBike;
+        }
+
+        public void setTimeBike(long timeBike) {
+            this.timeBike = timeBike;
+        }
+
+        public Double getCaloBike() {
+            return caloBike;
+        }
+
+        public void setCaloBike(Double caloBike) {
+            this.caloBike = caloBike;
+        }
+
+        public Double getKmBike() {
+            return kmBike;
+        }
+
+        public void setKmBike(Double kmBike) {
+            this.kmBike = kmBike;
         }
     }
 

@@ -12,6 +12,11 @@
     </item>
 
     <item
+        android:id="@+id/menu_bike"
+        android:title="Đi xe đạp">
+    </item>
+
+    <item
         android:id="@+id/menu_test"
         android:title="Chế độ test ">
     </item>

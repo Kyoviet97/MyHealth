@@ -24,11 +24,18 @@ public class DialogHistoryHealth extends AppCompatDialog {
     private TextView txtLong;
     private TextView txtSleep;
 
+    private TextView txtRun;
+    private TextView txtTimeBike;
+
     private String dateHistory = "";
 
     private int STEP;
     private int RUN;
     private long SLEEP;
+
+    private Long BIKETIME;
+    private double BIKECALO;
+    private double BIKEKM;
 
     private float chieuCao;
     private float canNang;
@@ -39,7 +46,7 @@ public class DialogHistoryHealth extends AppCompatDialog {
         setContentView(R.layout.dialog_history_main);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         int width = (int) (context.getResources().getDisplayMetrics().widthPixels * 0.85);
-        int height = (int) (context.getResources().getDisplayMetrics().heightPixels * 0.5);
+        int height = (int) (context.getResources().getDisplayMetrics().heightPixels * 0.8);
         getWindow().setLayout(width, height);
         setCancelable(true);
         this.context = context;
@@ -53,6 +60,9 @@ public class DialogHistoryHealth extends AppCompatDialog {
         txtCalo = findViewById(R.id.txt_calo);
         txtLong = findViewById(R.id.txt_long);
         txtSleep = findViewById(R.id.txt_sleep);
+
+        txtRun = findViewById(R.id.txt_run_step_history);
+        txtTimeBike = findViewById(R.id.txt_time_bike_history);
     }
 
     private void getProfile(){
@@ -71,16 +81,23 @@ public class DialogHistoryHealth extends AppCompatDialog {
         SLEEP = dataHealth.getSleep();
         RUN = dataHealth.getRun();
 
+        BIKETIME = dataHealth.getTimeBike();
+        BIKECALO = dataHealth.getCaloBike();
+        BIKEKM = dataHealth.getKmBike();
+
         double caloDiBo = (STEP - RUN) * Utils.getCalo(chieuCao, canNang, soTuoi, false);
         double caloChay = RUN * Utils.getCalo(chieuCao, canNang, soTuoi, true);
 
         double kmDiBo = (STEP - RUN) * 0.00075;
         double kmChay = RUN * 0.00085;
 
-        txtStep.setText(STEP + " bước");
-        txtSleep.setText(Utils.showTimeSleep3(SLEEP));
-        txtCalo.setText(Math.round((caloChay + caloDiBo) * 100.0) / 100.0 + "calo");
-        txtLong.setText(Math.round((kmChay + kmDiBo) * 100.0) / 100.0 + " km");
+        txtStep.setText((STEP - RUN) + " bước");
+        txtRun.setText(RUN + " bước");
+        txtTimeBike.setText(Utils.showTimeSleepMinute(BIKETIME) + " phút");
+
+        txtSleep.setText(Utils.showTimeSleepMinute(SLEEP) + " phút");
+        txtCalo.setText(Math.round((caloChay + caloDiBo + BIKECALO) * 100.0) / 100.0 + " calo");
+        txtLong.setText(Math.round((kmChay + kmDiBo + BIKEKM) * 100.0) / 100.0 + " km");
     }
 
     public void onShowDialog(String date){

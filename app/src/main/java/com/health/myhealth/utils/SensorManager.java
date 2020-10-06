@@ -23,8 +23,11 @@ public class SensorManager implements SensorEventListener, StepListener {
 
     private int STEP;
     private int RUN;
-    private long BIKE;
     private long SLEEP;
+
+    private long BIKETIME;
+    private Double BIKECALO;
+    private Double BIKEKM;
 
     private String dateCurrent;
     private float chieuCao;
@@ -45,8 +48,9 @@ public class SensorManager implements SensorEventListener, StepListener {
     private void init() {
         STEP = 0;
         RUN = 0;
-        BIKE = 0;
         SLEEP = 0;
+
+        BIKETIME = 0;
 
         gson = new Gson();
         getData();
@@ -81,11 +85,14 @@ public class SensorManager implements SensorEventListener, StepListener {
             if (dataHealth != null) {
                 STEP = dataHealth.getStep();
                 RUN = dataHealth.getRun();
-                BIKE = dataHealth.getBike();
                 SLEEP = dataHealth.getSleep();
+
+                BIKETIME = dataHealth.getTimeBike();
+                BIKECALO = dataHealth.getCaloBike();
+                BIKEKM = dataHealth.getKmBike();
             }
         } else {
-            UserModel.DataHealth newData = new UserModel.DataHealth(0, 0, 0,0);
+            UserModel.DataHealth newData = new UserModel.DataHealth(0, 0,0, 0, 0.0, 0.0);
             SharedPreferences.setDataString(context, dateCurrent, new Gson().toJson(newData));
             getData();
         }
@@ -106,15 +113,18 @@ public class SensorManager implements SensorEventListener, StepListener {
 
     @Override
     public void step(long timeNs) {
+        if (Conts.isBike){
+            return;
+        }
         if (!isPauseCountStep) {
             getData();
             STEP++;
             if ((timeNs - timeNsOld) < 400000000) {
                 RUN++;
-                SharedPreferences.setDataString(context, dateCurrent, gson.toJson(new UserModel.DataHealth(STEP, RUN, BIKE, SLEEP)));
+                SharedPreferences.setDataString(context, dateCurrent, gson.toJson(new UserModel.DataHealth(STEP, RUN, SLEEP, BIKETIME, BIKECALO, BIKEKM)));
 
             } else {
-                SharedPreferences.setDataString(context, dateCurrent, gson.toJson(new UserModel.DataHealth(STEP, RUN, BIKE, SLEEP)));
+                SharedPreferences.setDataString(context, dateCurrent, gson.toJson(new UserModel.DataHealth(STEP, RUN, SLEEP, BIKETIME, BIKECALO, BIKEKM)));
             }
             timeNsOld = timeNs;
             tongHopKetQua();
@@ -127,7 +137,6 @@ public class SensorManager implements SensorEventListener, StepListener {
         double caloChay = RUN * Utils.getCalo(chieuCao, canNang, soTuoi, true);
         double kmDiBo = (STEP - RUN) * 0.00075;
         double kmChay = RUN * 0.00085;
-        listenerEventSensor.eventSensor(STEP, RUN, BIKE, SLEEP, (caloDiBo + caloChay), (kmDiBo + kmChay));
-
+        listenerEventSensor.eventSensor(STEP, RUN, SLEEP, (caloDiBo + caloChay + BIKECALO), (kmDiBo + kmChay + BIKEKM), BIKETIME);
     }
 }
